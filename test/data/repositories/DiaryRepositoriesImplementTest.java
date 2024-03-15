@@ -60,6 +60,11 @@ class DiaryRepositoriesImplementTest {
         assertEquals(diary,diary1);
     }
     @Test
+    public void testThatDairyThatDoesNotExistCantBeFound(){
+        Diary diary1 = new Diary("username","password");
+        assertNull(diaryRepositoriesImpl.findById("usename1"));
+    }
+    @Test
     public void testThatDairyCanBeDeletedByDiaryObject(){
         Diary diary1 = new Diary("username","password");
         Diary diary2 = new Diary("username1","password");
