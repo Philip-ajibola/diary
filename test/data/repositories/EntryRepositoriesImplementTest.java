@@ -1,5 +1,6 @@
 package data.repositories;
 
+import data.model.Entry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,6 +14,9 @@ class EntryRepositoriesImplementTest {
     }
     @Test
     public void testThatEntryCanBeCreated(){
+        Entry entry = new Entry();
+        entry.setId(entryRepositoriesImplement.generateId());
+        entryRepositoriesImplement.save(entry);
 
     }
 }

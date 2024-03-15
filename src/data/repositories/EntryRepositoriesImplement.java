@@ -5,9 +5,10 @@ import data.model.Entry;
 import java.util.List;
 
 public class EntryRepositoriesImplement implements EntryRepositories{
+    private int id;
 
     @Override
-    public Entry save() {
+    public Entry save(Entry entry) {
         return null;
     }
 
@@ -34,5 +35,9 @@ public class EntryRepositoriesImplement implements EntryRepositories{
     @Override
     public void delete(Entry entry) {
 
+    }
+
+    public int generateId() {
+        return ++id;
     }
 }
