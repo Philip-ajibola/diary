@@ -12,8 +12,17 @@ public class EntryRepositoriesImplement implements EntryRepositories{
     @Override
     public Entry save(Entry entry) {
         if(entryIsNotPresent(entry)){
+            entry.setId(generateId());
+            System.out.println(entry.getId());
             entries.add(entry);
         }else{
+            for(Entry entry1: entries){
+                if(entry1.getId() == entry.getId()){
+                    entries.remove(entry1);
+                    entries.add(entry);
+                }
+
+            }
         }
         return entry;
     }
@@ -56,6 +65,7 @@ public class EntryRepositoriesImplement implements EntryRepositories{
     }
 
     public void updateTitle(String newTitle) {
+
     }
 
     public void updateBody(String newBody) {

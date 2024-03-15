@@ -27,4 +27,11 @@ public class Entry {
     public int getId() {
         return id;
     }
+
+    public String getTitle() {
+        return title;
+    }
+    public String getBody(){
+        return body;
+    }
 }

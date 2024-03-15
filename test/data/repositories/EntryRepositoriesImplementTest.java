@@ -40,15 +40,16 @@ class EntryRepositoriesImplementTest {
     @Test
     public void testThatEntryCanBeUpdated(){
         Entry entry = new Entry();
-        Entry entry1 = new Entry();
         entry.setId(entry.getId());
         entry.setTitle("title");
         entry.setBody("body");
         entryRepositoriesImplement.save(entry);
 
-        entryRepositoriesImplement.updateId(entry.getId());
-        entryRepositoriesImplement.updateTitle("newTitle");
-        entryRepositoriesImplement.updateBody("newBody");
+        entry.setId(entry.getId());
+        entry.setTitle("newTitle");
+        entry.setBody("newBody");
+        entryRepositoriesImplement.save(entry);
         assertEquals(1,entryRepositoriesImplement.count());
+
     }
 }
