@@ -23,4 +23,8 @@ public class Entry {
     public void setBody(String body) {
         this.body = body;
     }
+
+    public int getId() {
+        return id;
+    }
 }
