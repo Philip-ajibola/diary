@@ -75,6 +75,14 @@ class DiaryRepositoriesImplementTest {
         assertNull(diary);
         assertEquals(1l,diaryRepositoriesImpl.count());
     }
+    @Test
+    public void testThatAllDiaryCanBeFound(){
+        Diary diary1 = new Diary("username","password");
+        Diary diary2 = new Diary("username1","password");
+        diaryRepositoriesImpl.save(diary1);
+        diaryRepositoriesImpl.save(diary2);
+        assertEquals(2l,diaryRepositoriesImpl.findAll().size());
+    }
 
 
 }

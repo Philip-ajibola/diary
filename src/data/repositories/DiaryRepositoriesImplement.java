@@ -18,7 +18,7 @@ public class DiaryRepositoriesImplement implements DiaryRepositories{
 
     @Override
     public List<Diary> findAll() {
-        return null;
+        return diaries;
     }
 
     @Override

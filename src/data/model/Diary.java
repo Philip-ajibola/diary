@@ -9,6 +9,9 @@ public class Diary {
         this.username = username;
         this.password = password;
     }
+    public Diary(){
+
+    }
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof Diary diary){
@@ -17,6 +20,13 @@ public class Diary {
         return false;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public String getUsername() {
         return username;
