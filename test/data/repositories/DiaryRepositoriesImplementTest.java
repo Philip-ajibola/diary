@@ -59,7 +59,17 @@ class DiaryRepositoriesImplementTest {
         Diary diary = diaryRepositoriesImpl.findById("username");
         assertEquals(diary,diary1);
     }
-
+    @Test
+    public void testThatDairyCanBeDeletedByDiaryObject(){
+        Diary diary1 = new Diary("username","password");
+        Diary diary2 = new Diary("username1","password");
+        diaryRepositoriesImpl.save(diary1);
+        diaryRepositoriesImpl.save(diary2);
+        diaryRepositoriesImpl.delete(diary1);
+        Diary diary = diaryRepositoriesImpl.findById("username");
+        assertNull(diary);
+        assertEquals(1l,diaryRepositoriesImpl.count());
+    }
 
 
 }

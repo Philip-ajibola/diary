@@ -49,6 +49,11 @@ public class DiaryRepositoriesImplement implements DiaryRepositories{
 
     @Override
     public void delete(Diary diary) {
-
+        for(Diary diary1: diaries){
+            if(diary1.equals(diary)){
+                diaries.remove(diary);
+                break;
+            }
+        }
     }
 }
