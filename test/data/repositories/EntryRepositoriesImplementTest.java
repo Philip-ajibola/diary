@@ -16,6 +16,8 @@ class EntryRepositoriesImplementTest {
     public void testThatEntryCanBeCreated(){
         Entry entry = new Entry();
         entry.setId(entryRepositoriesImplement.generateId());
+        entry.setTitle("title");
+        entry.setBody("body");
         entryRepositoriesImplement.save(entry);
 
     }
