@@ -64,6 +64,19 @@ class EntryRepositoriesImplementTest {
         assertEquals(0,entryRepositoriesImplement.count());
     }
     @Test
+    public void testThatWhenEntryToDeleteIsNotFound_SizeOfEntryDoesNotChange(){
+        Entry entry = new Entry();
+        entry.setId(entry.getId());
+        entry.setTitle("title");
+        entry.setBody("body");
+
+        entryRepositoriesImplement.save(entry);
+        entryRepositoriesImplement.delete(2);
+        assertEquals(1,entryRepositoriesImplement.count());
+
+    }
+
+    @Test
     public void testThatEntryCanBeFoundWithEntryId(){
         Entry entry = new Entry();
         entry.setId(entry.getId());

@@ -60,17 +60,12 @@ public class EntryRepositoriesImplement implements EntryRepositories{
 
     @Override
     public void delete(int id) {
-        for(Entry entry1: entries) {
-            if (entry1.getId() == id) {
-                entries.remove(entry1);
-                break;
-            }
-        }
+        entries.removeIf(entry -> entry.getId() == id);
     }
 
     @Override
     public void delete(Entry entry) {
-        entries.remove(entry);
+        entries.removeIf(entry1-> entry1 == entry);
     }
 
     public int generateId() {
