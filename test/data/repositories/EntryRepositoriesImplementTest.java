@@ -4,6 +4,9 @@ import data.model.Entry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class EntryRepositoriesImplementTest {
@@ -76,5 +79,23 @@ class EntryRepositoriesImplementTest {
     @Test
     public void testThatWhenEntryThatDoesNotExistIsFound_nullIsReturned(){
         assertNull(entryRepositoriesImplement.findById(1));
+    }
+    @Test
+    public void testThatAllEntryCanBeFound(){
+        Entry entry = new Entry();
+        entry.setId(entry.getId());
+        entry.setTitle("title");
+        entry.setBody("body");
+        entryRepositoriesImplement.save(entry);
+
+        Entry entry1 = new Entry();
+        entry1.setId(entry1.getId());
+        entry1.setTitle("title");
+        entry1.setBody("body");
+        entryRepositoriesImplement.save(entry1);
+        List<Entry> entries = new ArrayList<>();
+        entries.add(entry);
+        entries.add(entry1);
+        assertEquals(entries,entryRepositoriesImplement.findAll());
     }
 }
