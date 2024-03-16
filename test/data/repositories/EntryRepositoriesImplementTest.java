@@ -34,7 +34,7 @@ class EntryRepositoriesImplementTest {
         entry.setBody("body");
         entryRepositoriesImplement.save(entry);
 
-        entry1.setId(entry.getId());
+        entry1.setId(entry1.getId());
         entry1.setTitle("title1");
         entry1.setBody("body1");
         entryRepositoriesImplement.save(entry1);
