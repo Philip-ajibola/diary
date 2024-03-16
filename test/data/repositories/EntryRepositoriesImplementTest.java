@@ -42,10 +42,7 @@ class EntryRepositoriesImplementTest {
     }
     @Test
     public void testThatEntryCanBeUpdated(){
-        Entry entry = new Entry();
-        entry.setId(entry.getId());
-        entry.setTitle("title");
-        entry.setBody("body");
+        Entry entry = new Entry(1,"title","body");
         entryRepositoriesImplement.save(entry);
 
         entry.setId(entry.getId());
