@@ -11,7 +11,7 @@ public class EntryRepositoriesImplement implements EntryRepositories{
 
     @Override
     public Entry save(Entry entry) {
-        if(entryIsNotPresent(entry)){
+        if(isNewEntry(entry)){
             entry.setId(generateId());
             entries.add(entry);
         }else{
@@ -26,8 +26,16 @@ public class EntryRepositoriesImplement implements EntryRepositories{
         return entry;
     }
 
-    private boolean entryIsNotPresent(Entry entry) {
-        return entry.getId() == 0;
+    private boolean isNewEntry(Entry entry) {
+        return entry.getId() == 0 || isEntryPresent(entry);
+    }
+    private boolean isEntryPresent(Entry entry1){
+        for(Entry entry: entries){
+            if(entry.getId() ==entry1.getId()){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

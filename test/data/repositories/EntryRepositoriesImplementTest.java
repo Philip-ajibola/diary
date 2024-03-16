@@ -82,16 +82,10 @@ class EntryRepositoriesImplementTest {
     }
     @Test
     public void testThatAllEntryCanBeFound(){
-        Entry entry = new Entry();
-        entry.setId(entry.getId());
-        entry.setTitle("title");
-        entry.setBody("body");
+        Entry entry = new Entry(1,"title","body");
         entryRepositoriesImplement.save(entry);
 
-        Entry entry1 = new Entry();
-        entry1.setId(entry1.getId());
-        entry1.setTitle("title");
-        entry1.setBody("body");
+        Entry entry1 = new Entry(2,"title","body");
         entryRepositoriesImplement.save(entry1);
         List<Entry> entries = new ArrayList<>();
         entries.add(entry);
