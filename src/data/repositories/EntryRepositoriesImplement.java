@@ -13,7 +13,6 @@ public class EntryRepositoriesImplement implements EntryRepositories{
     public Entry save(Entry entry) {
         if(entryIsNotPresent(entry)){
             entry.setId(generateId());
-            System.out.println(entry.getId());
             entries.add(entry);
         }else{
             for(Entry entry1: entries){
@@ -38,6 +37,11 @@ public class EntryRepositoriesImplement implements EntryRepositories{
 
     @Override
     public Entry findById(int Id) {
+        for(Entry entry1: entries) {
+            if (entry1.getId() == id) {
+                return entry1;
+            }
+        }
         return null;
     }
 
@@ -48,7 +52,12 @@ public class EntryRepositoriesImplement implements EntryRepositories{
 
     @Override
     public void delete(int id) {
-
+        for(Entry entry1: entries) {
+            if (entry1.getId() == id) {
+                entries.remove(entry1);
+                break;
+            }
+        }
     }
 
     @Override
@@ -60,14 +69,5 @@ public class EntryRepositoriesImplement implements EntryRepositories{
         return ++id;
     }
 
-    public void updateId(int id) {
 
-    }
-
-    public void updateTitle(String newTitle) {
-
-    }
-
-    public void updateBody(String newBody) {
-    }
 }

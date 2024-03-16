@@ -52,4 +52,25 @@ class EntryRepositoriesImplementTest {
         assertEquals(1,entryRepositoriesImplement.count());
 
     }
+    @Test
+    public void testThatEntryCanBeDeleted(){
+        Entry entry = new Entry();
+        entry.setId(entry.getId());
+        entry.setTitle("title");
+        entry.setBody("body");
+
+        entryRepositoriesImplement.save(entry);
+        entryRepositoriesImplement.delete(1);
+        assertEquals(0,entryRepositoriesImplement.count());
+    }
+    @Test
+    public void testThatEntryCanBeFoundWithEntryId(){
+        Entry entry = new Entry();
+        entry.setId(entry.getId());
+        entry.setTitle("title");
+        entry.setBody("body");
+
+        entryRepositoriesImplement.save(entry);
+        assertEquals(entry,entryRepositoriesImplement.findById(1));
+    }
 }
