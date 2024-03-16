@@ -73,4 +73,8 @@ class EntryRepositoriesImplementTest {
         entryRepositoriesImplement.save(entry);
         assertEquals(entry,entryRepositoriesImplement.findById(1));
     }
+    @Test
+    public void testThatWhenEntryThatDoesNotExistIsFound_nullIsReturned(){
+        assertNull(entryRepositoriesImplement.findById(1));
+    }
 }
