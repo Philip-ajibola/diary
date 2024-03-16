@@ -98,4 +98,15 @@ class EntryRepositoriesImplementTest {
         entries.add(entry1);
         assertEquals(entries,entryRepositoriesImplement.findAll());
     }
+    @Test
+    public void testThatEntryCanBeDeletedByEntryObject(){
+        Entry entry = new Entry();
+        entry.setId(entry.getId());
+        entry.setTitle("title");
+        entry.setBody("body");
+        entryRepositoriesImplement.save(entry);
+
+        entryRepositoriesImplement.delete(entry);
+        assertEquals(0,entryRepositoriesImplement.count());
+    }
 }

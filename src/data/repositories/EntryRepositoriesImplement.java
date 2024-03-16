@@ -62,7 +62,7 @@ public class EntryRepositoriesImplement implements EntryRepositories{
 
     @Override
     public void delete(Entry entry) {
-
+        entries.remove(entry);
     }
 
     public int generateId() {
