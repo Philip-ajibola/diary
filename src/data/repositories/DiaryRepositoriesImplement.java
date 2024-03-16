@@ -1,6 +1,7 @@
 package data.repositories;
 
 import data.model.Diary;
+import data.model.Entry;
 
 import java.util.AbstractList;
 import java.util.ArrayList;
@@ -56,4 +57,5 @@ public class DiaryRepositoriesImplement implements DiaryRepositories{
             }
         }
     }
+
 }

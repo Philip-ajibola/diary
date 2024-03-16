@@ -1,6 +1,7 @@
 package data.repositories;
 
 import data.model.Diary;
+import data.model.Entry;
 
 import java.util.List;
 

@@ -1,6 +1,7 @@
 package services;
 
 import data.model.Diary;
+import data.model.Entry;
 import dto.request.Request;
 
 import java.util.concurrent.locks.ReentrantLock;
@@ -11,5 +12,7 @@ public interface DiaryService {
 
     long count();
 
-     Diary findDiaryById(String username);
+    Diary findDiaryById(String username);
+
+    void addEntry(Entry entry);
 }
