@@ -5,6 +5,7 @@ import data.repositories.DiaryRepositoriesImplement;
 public class Diary {
     private String username;
     private String password;
+    private boolean isLocked = true;
     public Diary(String username, String password) {
         this.username = username;
         this.password = password;
@@ -30,5 +31,17 @@ public class Diary {
 
     public String getUsername() {
         return username;
+    }
+
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void unLock() {
+        isLocked = false;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

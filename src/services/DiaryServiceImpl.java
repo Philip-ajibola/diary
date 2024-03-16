@@ -4,8 +4,9 @@ import data.model.Diary;
 import data.repositories.DiaryRepositories;
 import data.repositories.DiaryRepositoriesImplement;
 import dto.request.Request;
+import exception.InvalidPasswordException;
+import exception.InvalidUserNameException;
 import exception.UserNameExistException;
-import services.DiaryService;
 
 public class DiaryServiceImpl implements DiaryService {
     private DiaryRepositories diaryRepositories = new DiaryRepositoriesImplement();
@@ -19,8 +20,20 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     public void login(String username, String password) {
-
+            Diary diary  = findDiaryById(username);
+        validateUsername(diary);
+        validatePassword(password, diary);
+        diary.unLock();
     }
+
+    private static void validatePassword(String password, Diary diary) {
+        if(!diary.getPassword().equals(password))throw new InvalidPasswordException("Invalid Password ");
+    }
+
+    private  void validateUsername(Diary diary) {
+        if(diary ==null)throw new InvalidUserNameException("InValid UserName Provide A Valid Username");
+    }
+
     private boolean isDiaryExisting(String username){
         for(Diary diary: diaryRepositories.findAll()){
             if(diary.getUsername().equals(username))return true;
@@ -30,5 +43,10 @@ public class DiaryServiceImpl implements DiaryService {
     @Override
     public long count() {
         return diaryRepositories.count();
+    }
+
+    @Override
+    public Diary findDiaryById(String username) {
+        return diaryRepositories.findById(username);
     }
 }

@@ -1,4 +1,6 @@
 package services;
+import exception.InvalidPasswordException;
+import exception.InvalidUserNameException;
 import exception.UserNameExistException;
 
 import dto.request.Request;
@@ -36,5 +38,27 @@ class DiaryServiceImplTest {
         assertThrows(UserNameExistException.class,()->diaryService.register(request1));
         assertEquals(1,diaryService.count());
     }
+    @Test
+    public void testThatUserCanLoginToDiaryApp(){
+        Request request  = new Request("username","password");
+        diaryService.register(request);
+        diaryService.login(request.getUsername(), request.getPassword());
+        assertFalse(diaryService.findDiaryById(request.getUsername()).isLocked());
+    }
+    @Test
+    public void testThatUserCantLoginToDiaryAppWithWrongUserName(){
+        Request request  = new Request("username","password");
+        diaryService.register(request);
+        assertThrows(InvalidUserNameException.class,()->diaryService.login("wrongUsername", "password"));
+        assertTrue(diaryService.findDiaryById(request.getUsername()).isLocked());
+    }
+    @Test
+    public void testThatUserCantLoginToDiaryAppWithWrongPassword(){
+        Request request  = new Request("username","password");
+        diaryService.register(request);
+        assertThrows(InvalidPasswordException.class,()->diaryService.login("username","wrongPassword"));
+        assertTrue(diaryService.findDiaryById(request.getUsername()).isLocked());
+    }
+
 
 }
