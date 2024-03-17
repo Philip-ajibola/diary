@@ -46,6 +46,5 @@ public class Diary {
     }
 
     public void createEntry(Entry entry) {
-
     }
 }
