@@ -3,7 +3,7 @@ import exception.InvalidPasswordException;
 import exception.InvalidUserNameException;
 import exception.UserNameExistException;
 
-import dto.request.Request;
+import dtos.request.Request;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

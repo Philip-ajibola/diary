@@ -44,4 +44,8 @@ public class Diary {
     public String getPassword() {
         return password;
     }
+
+    public void createEntry(Entry entry) {
+
+    }
 }

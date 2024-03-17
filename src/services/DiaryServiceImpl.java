@@ -1,15 +1,20 @@
 package services;
 
 import data.model.Diary;
+import data.model.Entry;
 import data.repositories.DiaryRepositories;
 import data.repositories.DiaryRepositoriesImplement;
-import dto.request.Request;
+import data.repositories.EntryRepositories;
+import data.repositories.EntryRepositoriesImplement;
+import dtos.entryCreation.EntryCreation;
+import dtos.request.Request;
 import exception.InvalidPasswordException;
 import exception.InvalidUserNameException;
 import exception.UserNameExistException;
 
 public class DiaryServiceImpl implements DiaryService {
     private DiaryRepositories diaryRepositories = new DiaryRepositoriesImplement();
+    private EntryRepositories entryRepositories = new EntryRepositoriesImplement();
 
     @Override
     public void register(Request request) {
@@ -48,5 +53,14 @@ public class DiaryServiceImpl implements DiaryService {
     @Override
     public Diary findDiaryById(String username) {
         return diaryRepositories.findById(username);
+    }
+
+    @Override
+    public void addEntry(Diary diary, EntryCreation entryCreation) {
+        Entry entry = new Entry();
+        entry.setTitle(entryCreation.getTitle());
+        entry.setBody(entryCreation.getBody());
+        diary.createEntry(entryRepositories.save(entry));
+
     }
 }

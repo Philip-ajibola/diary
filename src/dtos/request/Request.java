@@ -1,4 +1,4 @@
-package dto.request;
+package dtos.request;
 
 public class Request {
     private String username;

@@ -1,10 +1,8 @@
 package services;
 
 import data.model.Diary;
-import data.model.Entry;
-import dto.request.Request;
-
-import java.util.concurrent.locks.ReentrantLock;
+import dtos.entryCreation.EntryCreation;
+import dtos.request.Request;
 
 public interface DiaryService {
     void register(Request request);
@@ -14,5 +12,5 @@ public interface DiaryService {
 
     Diary findDiaryById(String username);
 
-    void addEntry(Entry entry);
+    void addEntry(Diary diary, EntryCreation entryCreation);
 }
