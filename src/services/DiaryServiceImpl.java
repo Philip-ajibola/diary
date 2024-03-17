@@ -60,7 +60,7 @@ public class DiaryServiceImpl implements DiaryService {
         Entry entry = new Entry();
         entry.setTitle(entryCreation.getTitle());
         entry.setBody(entryCreation.getBody());
+        Diary diary1 = diaryRepositories.findById(diary.getUsername());
         diary.createEntry(entryRepositories.save(entry));
-
     }
 }
