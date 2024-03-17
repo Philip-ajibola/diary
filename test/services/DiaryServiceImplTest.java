@@ -91,8 +91,8 @@ class DiaryServiceImplTest {
         EntryCreation entryCreation = new EntryCreation("title","body");
         Diary diary = diaryService.findDiaryById(request.getUsername());
         diaryService.addEntry(diary,entryCreation);
-        diaryService.deleteAEntry(diary,)
-        assertEquals(1,diary.getNumberOfEntries());
+        diaryService.deleteAEntry(diary,1);
+        assertEquals(0,diary.getNumberOfEntries());
 
     }
 

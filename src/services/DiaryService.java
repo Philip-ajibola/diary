@@ -14,4 +14,6 @@ public interface DiaryService {
 
     void addEntry(Diary diary, EntryCreation entryCreation);
 
+    void deleteAEntry(Diary diary, int entryNumber);
+
 }

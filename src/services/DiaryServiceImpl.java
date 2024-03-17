@@ -63,4 +63,10 @@ public class DiaryServiceImpl implements DiaryService {
         Diary diary1 = diaryRepositories.findById(diary.getUsername());
         diary.createEntry(entryRepositories.save(entry));
     }
+
+    @Override
+    public void deleteAEntry(Diary diary, int entryNumber) {
+        Diary diary1 = diaryRepositories.findById(diary.getUsername());
+        diary1.deleteEntry(entryNumber);
+    }
 }

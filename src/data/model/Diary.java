@@ -58,4 +58,8 @@ public class Diary {
     public int getNumberOfEntries() {
         return entries.size();
     }
+
+    public void deleteEntry(int entryNumber) {
+        entries.removeIf(entryId-> entryId.getId() == entryNumber);
+    }
 }
