@@ -12,4 +12,5 @@ public interface DiaryRepositories {
     long count();
     void delete(String id);
     void delete(Diary diary);
+
 }

@@ -13,4 +13,5 @@ public interface DiaryService {
     Diary findDiaryById(String username);
 
     void addEntry(Diary diary, EntryCreation entryCreation);
+
 }

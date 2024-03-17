@@ -2,10 +2,16 @@ package data.model;
 
 import data.repositories.DiaryRepositoriesImplement;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Diary {
     private String username;
     private String password;
     private boolean isLocked = true;
+    private List<Entry> entries = new ArrayList<>();
+
     public Diary(String username, String password) {
         this.username = username;
         this.password = password;
@@ -46,5 +52,10 @@ public class Diary {
     }
 
     public void createEntry(Entry entry) {
+        entries.add(entry);
+    }
+
+    public int getNumberOfEntries() {
+        return entries.size();
     }
 }

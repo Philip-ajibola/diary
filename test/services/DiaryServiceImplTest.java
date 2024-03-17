@@ -1,4 +1,6 @@
 package services;
+import data.model.Diary;
+import dtos.entryCreation.EntryCreation;
 import exception.InvalidPasswordException;
 import exception.InvalidUserNameException;
 import exception.UserNameExistException;
@@ -59,6 +61,39 @@ class DiaryServiceImplTest {
         assertThrows(InvalidPasswordException.class,()->diaryService.login("username","wrongPassword"));
         assertTrue(diaryService.findDiaryById(request.getUsername()).isLocked());
     }
+    @Test
+    public void testThatEntryCanBeAddedToADiary(){
+        Request request  = new Request("username","password");
+        diaryService.register(request);
+        EntryCreation entryCreation = new EntryCreation("title","body");
+        Diary diary = diaryService.findDiaryById(request.getUsername());
+        diaryService.addEntry(diary,entryCreation);
+        assertEquals(1,diary.getNumberOfEntries());
+    }
+    @Test
+    public void testThatMultipleEntryCanBeCreated(){
+        Request request  = new Request("username","password");
+        diaryService.register(request);
+        EntryCreation entryCreation = new EntryCreation("title","body");
+        Diary diary = diaryService.findDiaryById(request.getUsername());
+        diaryService.addEntry(diary,entryCreation);
+        assertEquals(1,diary.getNumberOfEntries());
 
+        EntryCreation entryCreation1 = new EntryCreation("title","body");
+        Diary diary1 = diaryService.findDiaryById(request.getUsername());
+        diaryService.addEntry(diary1,entryCreation);
+        assertEquals(2,diary.getNumberOfEntries());    }
+
+    @Test
+    public void testThatEntryInADiaryCanBeUpDated(){
+        Request request  = new Request("username","password");
+        diaryService.register(request);
+        EntryCreation entryCreation = new EntryCreation("title","body");
+        Diary diary = diaryService.findDiaryById(request.getUsername());
+        diaryService.addEntry(diary,entryCreation);
+        diaryService.deleteAEntry(diary,)
+        assertEquals(1,diary.getNumberOfEntries());
+
+    }
 
 }

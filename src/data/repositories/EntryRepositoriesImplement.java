@@ -23,6 +23,7 @@ public class EntryRepositoriesImplement implements EntryRepositories{
 
             }
         }
+
         return entry;
     }
 

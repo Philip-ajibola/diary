@@ -1,6 +1,7 @@
 package data.repositories;
 
 import data.model.Diary;
+import dtos.entryCreation.EntryCreation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -83,6 +84,5 @@ class DiaryRepositoriesImplementTest {
         diaryRepositoriesImpl.save(diary2);
         assertEquals(2l,diaryRepositoriesImpl.findAll().size());
     }
-
 
 }

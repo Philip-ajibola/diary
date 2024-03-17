@@ -23,4 +23,5 @@ public class EntryCreation {
     public void setBody(String body) {
         this.body = body;
     }
+
 }

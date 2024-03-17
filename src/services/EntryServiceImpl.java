@@ -7,7 +7,6 @@ public class EntryServiceImpl implements EntryService{
     public void create(Entry entry) {
 
     }
-
     @Override
     public void update(Entry entry) {
 
