@@ -61,5 +61,6 @@ public class Diary {
 
     public void deleteEntry(int entryNumber) {
         entries.removeIf(entryId-> entryId.getId() == entryNumber);
+
     }
 }
