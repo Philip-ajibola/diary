@@ -46,7 +46,7 @@ public class EntryRepositoriesImplement implements EntryRepositories{
     }
 
     @Override
-    public Entry findById(int Id) {
+    public Entry findById(int id) {
         for(Entry entry1: entries) {
             if (entry1.getId() == id) {
                 return entry1;
@@ -74,5 +74,14 @@ public class EntryRepositoriesImplement implements EntryRepositories{
         return ++id;
     }
 
+    @Override
+    public Entry findByAuthorName(String author) {
+        for(Entry entry1: entries) {
+            if (entry1.getAuthor() == author) {
+                return entry1;
+            }
+        }
+        return null;
+    }
 
 }
