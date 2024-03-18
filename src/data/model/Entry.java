@@ -2,6 +2,7 @@ package data.model;
 
 public class Entry {
 
+    private  String author;
     private  String title;
     private  String body;
     private int id;
@@ -33,5 +34,12 @@ public class Entry {
     }
     public String getBody(){
         return body;
+    }
+    public void setAuthor(String author){
+        this.author = author;
+    }
+
+    public String getAuthor() {
+        return author;
     }
 }
