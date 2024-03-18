@@ -90,6 +90,7 @@ class EntryRepositoriesImplementTest {
     public void testThatWhenEntryThatDoesNotExistIsFound_nullIsReturned(){
         assertNull(entryRepositoriesImplement.findById(1));
     }
+
     @Test
     public void testThatAllEntryCanBeFound(){
         Entry entry = new Entry(1,"title","body");
