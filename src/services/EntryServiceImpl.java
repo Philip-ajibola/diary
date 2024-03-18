@@ -1,5 +1,6 @@
 package services;
 
+import data.model.Diary;
 import data.model.Entry;
 import data.repositories.EntryRepositories;
 import data.repositories.EntryRepositoriesImplement;
@@ -15,7 +16,7 @@ public class EntryServiceImpl implements EntryService{
 
     }
     @Override
-    public void delete(Entry entry) {
-
+    public void deleteEntry(String author) {
+        entryRepositories.findByAuthorName(author);
     }
 }
