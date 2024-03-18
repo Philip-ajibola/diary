@@ -12,4 +12,6 @@ public interface EntryRepositories {
     void delete(int id);
     void delete(Entry entry);
     int generateId();
+
+    void findByAuthorName(String author);
 }
