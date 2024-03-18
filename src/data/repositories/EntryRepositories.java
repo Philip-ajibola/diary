@@ -13,5 +13,5 @@ public interface EntryRepositories {
     void delete(Entry entry);
     int generateId();
 
-    void findByAuthorName(String author);
+    Entry findByAuthorName(String author);
 }
