@@ -45,7 +45,6 @@ public class DiaryRepositoriesImplement implements DiaryRepositories{
                 break;
             }
         }
-
     }
 
     @Override
