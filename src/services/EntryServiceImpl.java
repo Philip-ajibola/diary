@@ -11,7 +11,6 @@ public class EntryServiceImpl implements EntryService{
     public void update(Entry entry) {
 
     }
-
     @Override
     public void delete(Entry entry) {
 
