@@ -84,5 +84,4 @@ class DiaryRepositoriesImplementTest {
         diaryRepositoriesImpl.save(diary2);
         assertEquals(2l,diaryRepositoriesImpl.findAll().size());
     }
-
 }
