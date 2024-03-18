@@ -14,7 +14,7 @@ import exception.UserNameExistException;
 
 public class DiaryServiceImpl implements DiaryService {
     private DiaryRepositories diaryRepositories = new DiaryRepositoriesImplement();
-    private EntryRepositories entryRepositories = new EntryRepositoriesImplement();
+    private EntryService entryService = new EntryServiceImpl();
 
     @Override
     public void register(Request request) {
@@ -60,14 +60,13 @@ public class DiaryServiceImpl implements DiaryService {
         Entry entry = new Entry();
         entry.setTitle(entryCreation.getTitle());
         entry.setBody(entryCreation.getBody());
-        Diary diary1 = diaryRepositories.findById(diary.getUsername());
-        diary.createEntry(entryRepositories.save(entry));
+        entry.setAuthor(diary.getUsername());
+        entryService.create(entry);
     }
 
     @Override
     public void deleteAEntry(Diary diary, int entryNumber) {
         Diary diary1 = diaryRepositories.findById(diary.getUsername());
         diary1.deleteEntry(entryNumber);
-
     }
 }
