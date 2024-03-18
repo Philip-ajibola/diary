@@ -70,6 +70,7 @@ class DiaryServiceImplTest {
         diaryService.addEntry(diary,entryCreation);
         assertEquals(1,diary.getNumberOfEntries());
     }
+
     @Test
     public void testThatMultipleEntryCanBeCreated(){
         Request request  = new Request("username","password");
