@@ -88,12 +88,16 @@ class DiaryServiceImplTest {
     @Test
     public void testThatEntryInADiaryCanBeUpDated(){
         Request request  = new Request("username","password");
+        Request request1 = new Request("username1","password");
         diaryService.register(request);
+        diaryService.register(request1);
         EntryCreation entryCreation = new EntryCreation("title","body");
         Diary diary = diaryService.findDiaryById(request.getUsername());
+        Diary diary1 = diaryService.findDiaryById(request1.getUsername());
         diaryService.addEntry(diary,entryCreation);
-        diaryService.deleteAEntry(diary,1);
-        assertEquals(0,diary.getNumberOfEntries());
+        diaryService.addEntry(diary1,entryCreation);
+        diaryService.deleteAEntry(diary1,2);
+        assertEquals(0,diary1.getNumberOfEntries());
 
     }
 
