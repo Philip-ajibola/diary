@@ -116,4 +116,15 @@ class EntryRepositoriesImplementTest {
         entryRepositoriesImplement.delete(entry);
         assertEquals(0,entryRepositoriesImplement.count());
     }
+    @Test
+    public void testAThatEntryCanBeFoundByAuthorName(){
+        Entry entry = new Entry();
+        entry.setId(entry.getId());
+        entry.setTitle("title");
+        entry.setAuthor("authorName");
+        entry.setBody("body");
+        entryRepositoriesImplement.save(entry);
+        assertEquals(entry,entryRepositoriesImplement.findByAuthorName("authorName"));
+    }
+
 }
