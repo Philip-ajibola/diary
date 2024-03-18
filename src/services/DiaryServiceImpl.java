@@ -8,6 +8,7 @@ import data.repositories.EntryRepositories;
 import data.repositories.EntryRepositoriesImplement;
 import dtos.entryCreation.EntryCreation;
 import dtos.request.Request;
+import exception.DiaryNotFound;
 import exception.InvalidPasswordException;
 import exception.InvalidUserNameException;
 import exception.UserNameExistException;
@@ -66,7 +67,7 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     public void deleteAEntry(Diary diary, int entryNumber) {
-        Diary diary1 = diaryRepositories.findById(diary.getUsername());
-        diary1.deleteEntry(entryNumber);
+        if(diary == null )throw new DiaryNotFound("Diary Not Found");
+        entryService.deleteEntry(diary.getUsername());
     }
 }
