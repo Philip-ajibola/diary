@@ -17,6 +17,7 @@ public class EntryServiceImpl implements EntryService{
     }
     @Override
     public void deleteEntry(String author) {
-        entryRepositories.findByAuthorName(author);
+       Entry entry = entryRepositories.findByAuthorName(author);
+       entryRepositories.delete(entry);
     }
 }
