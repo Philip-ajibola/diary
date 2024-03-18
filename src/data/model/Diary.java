@@ -11,6 +11,7 @@ public class Diary {
     private String password;
     private boolean isLocked = true;
     private List<Entry> entries = new ArrayList<>();
+    private int entryCounter;
 
     public Diary(String username, String password) {
         this.username = username;
