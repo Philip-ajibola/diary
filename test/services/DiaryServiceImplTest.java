@@ -1,6 +1,7 @@
 package services;
 import data.model.Diary;
 import dtos.entryCreation.EntryCreation;
+import exception.EntryNotFoundException;
 import exception.InvalidPasswordException;
 import exception.InvalidUserNameException;
 import exception.UserNameExistException;
@@ -162,6 +163,17 @@ class DiaryServiceImplTest {
         Diary diary = diaryService.findDiaryById(request.getUsername());
         diaryService.addEntry(diary,entryCreation);
         assertEquals(diaryService.findEntryBy("title","username"),entryService.findEntryOf("username").get(0));
+    }
+    @Test
+    public void testThatWhenEntryIsNotFoundExceptionIsThrown(){
+        Request request  = new Request("username","password");
+        diaryService.register(request);
+        diaryService.login(request.getUsername(), request.getPassword());
+        EntryCreation entryCreation = new EntryCreation("title","body");
+        Diary diary = diaryService.findDiaryById(request.getUsername());
+        diaryService.addEntry(diary,entryCreation);
+        assertThrows(EntryNotFoundException.class,()->diaryService.findEntryBy("title1","username"));
+
     }
 
 
