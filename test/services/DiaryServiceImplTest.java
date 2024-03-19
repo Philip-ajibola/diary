@@ -1,5 +1,7 @@
 package services;
 import data.model.Diary;
+import data.model.Entry;
+import dtos.UpdateEntry;
 import dtos.entryCreation.EntryCreation;
 import exception.EntryNotFoundException;
 import exception.InvalidPasswordException;
@@ -183,6 +185,32 @@ class DiaryServiceImplTest {
         Diary diary = diaryService.findDiaryById(request.getUsername());
         diaryService.addEntry(diary,entryCreation);
         assertThrows(EntryNotFoundException.class,()->diaryService.findEntryBy("title","wrongUsername"));
+    }
+    @Test
+    public void testThatEntryCanBeUpdateInADiary(){
+        Request request  = new Request("username","password");
+        diaryService.register(request);
+        diaryService.login(request.getUsername(), request.getPassword());
+        EntryCreation entryCreation = new EntryCreation("title","body");
+        Diary diary = diaryService.findDiaryById(request.getUsername());
+        diaryService.addEntry(diary,entryCreation);
+        UpdateEntry updateEntry = new UpdateEntry("newTitle","newBody");
+        diaryService.updateEntry("title",updateEntry,"username");
+        Entry entry = diaryService.findEntryBy("newTitle","username");
+        System.out.println(entry.getTitle());
+        assertThrows(EntryNotFoundException.class,()->diaryService.findEntryBy("title","wrongUsername"));
+    }
+    @Test
+    public void testThatWhenEntryIsNotFoundEntryCantBeUpdated(){
+        Request request  = new Request("username","password");
+        diaryService.register(request);
+        diaryService.login(request.getUsername(), request.getPassword());
+        EntryCreation entryCreation = new EntryCreation("title","body");
+        Diary diary = diaryService.findDiaryById(request.getUsername());
+        diaryService.addEntry(diary,entryCreation);
+        UpdateEntry updateEntry = new UpdateEntry("newTitle","newBody");
+        assertThrows(EntryNotFoundException.class,()->diaryService.updateEntry("title1",updateEntry,"username"));
+
     }
 
 }

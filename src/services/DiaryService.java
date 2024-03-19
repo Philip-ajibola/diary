@@ -2,6 +2,7 @@ package services;
 
 import data.model.Diary;
 import data.model.Entry;
+import dtos.UpdateEntry;
 import dtos.entryCreation.EntryCreation;
 import dtos.request.Request;
 
@@ -18,4 +19,6 @@ public interface DiaryService {
     void deleteAEntry(String username,String title);
 
     Entry findEntryBy(String title, String username);
+
+    void updateEntry(String title, UpdateEntry updateEntry, String username);
 }

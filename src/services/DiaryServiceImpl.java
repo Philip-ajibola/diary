@@ -4,6 +4,7 @@ import data.model.Diary;
 import data.model.Entry;
 import data.repositories.DiaryRepositories;
 import data.repositories.DiaryRepositoriesImplement;
+import dtos.UpdateEntry;
 import dtos.entryCreation.EntryCreation;
 import dtos.request.Request;
 import exception.EntryNotFoundException;
@@ -30,6 +31,7 @@ public class DiaryServiceImpl implements DiaryService {
         validateUsername(diary);
         validatePassword(password, diary);
         diary.unLock();
+        diaryRepositories.save(diary);
     }
 
     private static void validatePassword(String password, Diary diary) {
@@ -75,8 +77,23 @@ public class DiaryServiceImpl implements DiaryService {
         List<Entry> entries = entryService.findEntryOf(username);
         Entry expected = null;
         for(Entry entry: entries) if(entry.getTitle().equals(title)) expected = entry;
-        if(expected == null) throw new EntryNotFoundException("Entry Not Found");
+        validateEntry(expected);
         return expected;
+    }
+
+    private static void validateEntry(Entry expected) {
+        if(expected == null) throw new EntryNotFoundException("Entry Not Found");
+    }
+
+    @Override
+    public void updateEntry(String title, UpdateEntry updateEntry, String username) {
+        List<Entry> entries = entryService.findEntryOf(username);
+        Entry expected = null;
+        for(Entry entry: entries) if(entry.getTitle().equals(title)) expected = entry;
+        validateEntry(expected);
+        expected.setTitle(updateEntry.getNewTitle());
+        expected.setBody(updateEntry.getNewBody());
+        entryService.update(expected);
 
     }
 

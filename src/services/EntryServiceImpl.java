@@ -16,7 +16,7 @@ public class EntryServiceImpl implements EntryService{
     }
     @Override
     public void update(Entry entry) {
-
+            entryRepositories.save(entry);
     }
     @Override
     public void deleteEntry(String author,String title) {
