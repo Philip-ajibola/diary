@@ -13,9 +13,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DiaryServiceImplTest {
     private DiaryService diaryService;
+    private EntryService entryService;
     @BeforeEach
     public void createDiaryService(){
         diaryService  = new DiaryServiceImpl();
+        entryService = new EntryServiceImpl();
     }
 
     @Test
@@ -65,40 +67,78 @@ class DiaryServiceImplTest {
     public void testThatEntryCanBeAddedToADiary(){
         Request request  = new Request("username","password");
         diaryService.register(request);
+        diaryService.login(request.getUsername(), request.getPassword());
         EntryCreation entryCreation = new EntryCreation("title","body");
         Diary diary = diaryService.findDiaryById(request.getUsername());
         diaryService.addEntry(diary,entryCreation);
-        assertEquals(1,diary.getNumberOfEntries());
+        assertEquals(1,entryService.getNumberOfEntry());
     }
 
     @Test
     public void testThatMultipleEntryCanBeCreated(){
         Request request  = new Request("username","password");
         diaryService.register(request);
+        diaryService.login(request.getUsername(), request.getPassword());
         EntryCreation entryCreation = new EntryCreation("title","body");
         Diary diary = diaryService.findDiaryById(request.getUsername());
         diaryService.addEntry(diary,entryCreation);
-        assertEquals(1,diary.getNumberOfEntries());
+        assertEquals(1,entryService.getNumberOfEntry());
 
         EntryCreation entryCreation1 = new EntryCreation("title","body");
-        Diary diary1 = diaryService.findDiaryById(request.getUsername());
-        diaryService.addEntry(diary1,entryCreation);
-        assertEquals(2,diary.getNumberOfEntries());    }
+        diaryService.addEntry(diary,entryCreation1);
+        assertEquals(2,entryService.getNumberOfEntry());    }
 
     @Test
     public void testThatEntryInADiaryCanBeUpDated(){
         Request request  = new Request("username","password");
         Request request1 = new Request("username1","password");
         diaryService.register(request);
+        diaryService.login(request.getUsername(), request.getPassword());
         diaryService.register(request1);
+        diaryService.login(request1.getUsername(), request1.getPassword());
+
         EntryCreation entryCreation = new EntryCreation("title","body");
         Diary diary = diaryService.findDiaryById(request.getUsername());
         Diary diary1 = diaryService.findDiaryById(request1.getUsername());
         diaryService.addEntry(diary,entryCreation);
         diaryService.addEntry(diary1,entryCreation);
-        diaryService.deleteAEntry(diary1,2);
-        assertEquals(0,diary1.getNumberOfEntries());
+        diaryService.deleteAEntry("username","title");
+        assertEquals(1,entryService.getNumberOfEntry());
 
     }
+    @Test
+    public void testThatMultipleEntryCanBeAddedByOneUser(){
+        Request request  = new Request("username","password");
+        diaryService.register(request);
+        diaryService.login(request.getUsername(), request.getPassword());
+        EntryCreation entryCreation = new EntryCreation("title","body");
+        Diary diary = diaryService.findDiaryById(request.getUsername());
+        diaryService.addEntry(diary,entryCreation);
+        diaryService.addEntry(diary,entryCreation);
+        assertEquals(2,entryService.findEntryOf("username").size());
+    }
+    @Test
+    public void testThatWhenEntryIsCreatedEntryCanBeDeleted(){
+        Request request  = new Request("username","password");
+        diaryService.register(request);
+        diaryService.login(request.getUsername(), request.getPassword());
+        EntryCreation entryCreation = new EntryCreation("title1","body");
+        EntryCreation entryCreation1 = new EntryCreation("title","body");
+        Diary diary = diaryService.findDiaryById(request.getUsername());
+        diaryService.addEntry(diary,entryCreation);
+        diaryService.addEntry(diary,entryCreation1);
+        diaryService.deleteAEntry("username","title");
+        assertEquals(1,entryService.findEntryOf("username").size());
+    }
+  @Test
+  public void testThatWhenDairyIsNotLoginAndUserWantToAddEntryExceptionIsTHrown(){
+      Request request  = new Request("username","password");
+      diaryService.register(request);
+     // diaryService.login(request.getUsername(), request.getPassword());
+      EntryCreation entryCreation = new EntryCreation("title1","body");
+      EntryCreation entryCreation1 = new EntryCreation("title","body");
+      Diary diary = diaryService.findDiaryById(request.getUsername());
+      diaryService.addEntry(diary,entryCreation);
+  }
 
 }

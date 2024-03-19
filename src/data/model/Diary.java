@@ -10,8 +10,6 @@ public class Diary {
     private String username;
     private String password;
     private boolean isLocked = true;
-    private List<Entry> entries = new ArrayList<>();
-    private int entryCounter;
 
     public Diary(String username, String password) {
         this.username = username;
@@ -52,16 +50,7 @@ public class Diary {
         return password;
     }
 
-    public void createEntry(Entry entry) {
-        entries.add(entry);
-    }
 
-    public int getNumberOfEntries() {
-        return entries.size();
-    }
 
-    public void deleteEntry(int entryNumber) {
-        entries.removeIf(entryId-> entryId.getId() == entryNumber);
 
-    }
 }
