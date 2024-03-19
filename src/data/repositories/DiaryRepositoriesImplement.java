@@ -1,9 +1,8 @@
 package data.repositories;
 
 import data.model.Diary;
-import data.model.Entry;
+import exception.InvalidPasswordException;
 
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +12,20 @@ public class DiaryRepositoriesImplement implements DiaryRepositories{
 
     @Override
     public Diary save(Diary diary) {
-        diaries.add(diary);
+        if( validateDiary(diary)) {
+            for (Diary diary1 : diaries)
+                if (diary1.getUsername().equals(diary.getUsername())) {
+                    diary1.setUsername(diary.getUsername());
+                    diary1.setPassword(diary.getPassword());
+                }
+        }
+        else diaries.add(diary);
         return diary;
+    }
+
+    private boolean validateDiary(Diary diary) {
+        for(Diary diary1: diaries)if(diary1.getUsername().equals(diary.getUsername()))return true;
+        return false;
     }
 
     @Override
@@ -54,6 +65,15 @@ public class DiaryRepositoriesImplement implements DiaryRepositories{
                 diaries.remove(diary);
                 break;
             }
+        }
+    }
+
+    @Override
+    public void resetPassword(String password, String username, String newPassword) {
+        Diary diary = findById(username);
+        if(!diary.getPassword().equals(password))throw new InvalidPasswordException("Invalid Password");
+        for(Diary diary1: diaries){
+            if(diary1 == diary) diary1.setPassword(newPassword);
         }
     }
 
