@@ -173,7 +173,16 @@ class DiaryServiceImplTest {
         Diary diary = diaryService.findDiaryById(request.getUsername());
         diaryService.addEntry(diary,entryCreation);
         assertThrows(EntryNotFoundException.class,()->diaryService.findEntryBy("title1","username"));
-
+    }
+    @Test
+    public void testThatWhenUserNameIsNotValidWhenFindingEntry_EntryIsNotFoundExceptionIsThrown(){
+        Request request  = new Request("username","password");
+        diaryService.register(request);
+        diaryService.login(request.getUsername(), request.getPassword());
+        EntryCreation entryCreation = new EntryCreation("title","body");
+        Diary diary = diaryService.findDiaryById(request.getUsername());
+        diaryService.addEntry(diary,entryCreation);
+        assertThrows(EntryNotFoundException.class,()->diaryService.findEntryBy("title","wrong username"));
     }
 
 }
