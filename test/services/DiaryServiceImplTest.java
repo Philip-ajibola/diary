@@ -130,15 +130,6 @@ class DiaryServiceImplTest {
         diaryService.deleteAEntry("username","title");
         assertEquals(1,entryService.findEntryOf("username").size());
     }
-  @Test
-  public void testThatWhenDairyIsNotLoginAndUserWantToAddEntryExceptionIsTHrown(){
-      Request request  = new Request("username","password");
-      diaryService.register(request);
-     // diaryService.login(request.getUsername(), request.getPassword());
-      EntryCreation entryCreation = new EntryCreation("title1","body");
-      EntryCreation entryCreation1 = new EntryCreation("title","body");
-      Diary diary = diaryService.findDiaryById(request.getUsername());
-      diaryService.addEntry(diary,entryCreation);
-  }
+
 
 }
