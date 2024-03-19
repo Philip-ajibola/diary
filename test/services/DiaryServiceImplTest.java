@@ -161,8 +161,7 @@ class DiaryServiceImplTest {
         EntryCreation entryCreation = new EntryCreation("title","body");
         Diary diary = diaryService.findDiaryById(request.getUsername());
         diaryService.addEntry(diary,entryCreation);
-        diaryService.findEntryBy("title","username");
-        assertEquals(1,entryService.getNumberOfEntry());
+        assertEquals(diaryService.findEntryBy("title","username"),entryService.findEntryOf("username").get(0));
     }
 
 

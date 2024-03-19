@@ -71,11 +71,12 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
-    public void findEntryBy(String title, String username) {
+    public Entry findEntryBy(String title, String username) {
         List<Entry> entries = entryService.findEntryOf(username);
         Entry expected = null;
         for(Entry entry: entries) if(entry.getTitle().equals(title)) expected = entry;
         if(expected == null) throw new EntryNotFoundException("Entry Not Found");
+        return expected;
 
     }
 

@@ -1,6 +1,7 @@
 package services;
 
 import data.model.Diary;
+import data.model.Entry;
 import dtos.entryCreation.EntryCreation;
 import dtos.request.Request;
 
@@ -16,5 +17,5 @@ public interface DiaryService {
 
     void deleteAEntry(String username,String title);
 
-    void findEntryBy(String title, String username);
+    Entry findEntryBy(String title, String username);
 }
