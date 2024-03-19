@@ -13,7 +13,6 @@ public class EntryRepositoriesImplement implements EntryRepositories{
     public Entry save(Entry entry) {
         if(isNewEntry(entry)){
             entry.setId(generateId());
-            id=entry.getId();
             entries.add(entry);
         }else{
             for(Entry entry1: entries){
@@ -29,7 +28,7 @@ public class EntryRepositoriesImplement implements EntryRepositories{
     }
 
     private boolean isNewEntry(Entry entry) {
-        return entry.getId() == 0 || isEntryPresent(entry);
+        return entry.getId() == 0;
     }
     private boolean isEntryPresent(Entry entry1){
         for(Entry entry: entries){
