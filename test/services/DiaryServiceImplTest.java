@@ -182,7 +182,7 @@ class DiaryServiceImplTest {
         EntryCreation entryCreation = new EntryCreation("title","body");
         Diary diary = diaryService.findDiaryById(request.getUsername());
         diaryService.addEntry(diary,entryCreation);
-        assertThrows(EntryNotFoundException.class,()->diaryService.findEntryBy("title","wrong username"));
+        assertThrows(EntryNotFoundException.class,()->diaryService.findEntryBy("title","wrongUsername"));
     }
 
 }
