@@ -27,7 +27,7 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     public void login(String username, String password) {
-            Diary diary  = findDiaryById(username);
+        Diary diary  = findDiaryById(username);
         validateUsername(diary);
         validatePassword(password, diary);
         diary.unLock();
@@ -39,7 +39,8 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     private  void validateUsername(Diary diary) {
-        if(diary ==null)throw new InvalidUserNameException("InValid UserName Provide A Valid Username");
+        diary = findDiaryById(diary.getUsername());
+        if(diary == null)throw new InvalidUserNameException("InValid UserName Provide A Valid Username");
     }
 
     private boolean isDiaryExisting(String username){
@@ -94,6 +95,14 @@ public class DiaryServiceImpl implements DiaryService {
         expected.setTitle(updateEntry.getNewTitle());
         expected.setBody(updateEntry.getNewBody());
         entryService.update(expected);
+
+    }
+
+    @Override
+    public void resetPassword(String password, String username, String newPassWord) {
+        diaryRepositories.resetPassword(password,username,newPassWord);
+        Diary diary = findDiaryById(username);
+        diaryRepositories.save(diary);
 
     }
 
