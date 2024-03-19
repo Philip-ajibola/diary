@@ -1,7 +1,6 @@
 package data.repositories;
 
 import data.model.Diary;
-import data.model.Entry;
 
 import java.util.List;
 
@@ -12,4 +11,6 @@ public interface DiaryRepositories {
     long count();
     void delete(String id);
     void delete(Diary diary);
+
+    void resetPassword(String password, String username, String newPassword);
 }
