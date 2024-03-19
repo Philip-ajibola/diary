@@ -38,4 +38,9 @@ public class EntryServiceImpl implements EntryService{
         entryRepositories.findAll().forEach(entry ->{ if(entry.getAuthor().equals(username))found.add(entry);});
         return found;
     }
+
+    @Override
+    public List<Entry> findAll() {
+        return entryRepositories.findAll();
+    }
 }

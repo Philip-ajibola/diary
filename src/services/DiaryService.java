@@ -15,4 +15,6 @@ public interface DiaryService {
     void addEntry(Diary diary, EntryCreation entryCreation);
 
     void deleteAEntry(String username,String title);
+
+    void findEntryBy(String title, String username);
 }

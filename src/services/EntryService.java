@@ -11,4 +11,6 @@ public interface EntryService {
 
     int getNumberOfEntry();
     List<Entry> findEntryOf(String username);
+
+    List<Entry> findAll();
 }

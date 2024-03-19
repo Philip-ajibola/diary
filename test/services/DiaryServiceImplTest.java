@@ -6,6 +6,7 @@ import exception.InvalidUserNameException;
 import exception.UserNameExistException;
 
 import dtos.request.Request;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,6 +19,10 @@ class DiaryServiceImplTest {
     public void createDiaryService(){
         diaryService  = new DiaryServiceImpl();
         entryService = new EntryServiceImpl();
+    }
+    @AfterEach
+    public void emptyDairy(){
+        entryService.findAll().clear();
     }
 
     @Test
@@ -72,6 +77,7 @@ class DiaryServiceImplTest {
         Diary diary = diaryService.findDiaryById(request.getUsername());
         diaryService.addEntry(diary,entryCreation);
         assertEquals(1,entryService.getNumberOfEntry());
+
     }
 
     @Test
@@ -107,6 +113,23 @@ class DiaryServiceImplTest {
 
     }
     @Test
+    public void testThatUserCanFindEntry(){
+        Request request  = new Request("username","password");
+        Request request1 = new Request("username1","password");
+        diaryService.register(request);
+        diaryService.login(request.getUsername(), request.getPassword());
+        diaryService.register(request1);
+        diaryService.login(request1.getUsername(), request1.getPassword());
+
+        EntryCreation entryCreation = new EntryCreation("title","body");
+        Diary diary = diaryService.findDiaryById(request.getUsername());
+        Diary diary1 = diaryService.findDiaryById(request1.getUsername());
+        diaryService.addEntry(diary,entryCreation);
+        diaryService.addEntry(diary1,entryCreation);
+        diaryService.deleteAEntry("username","title");
+        assertEquals(1,entryService.getNumberOfEntry());
+    }
+    @Test
     public void testThatMultipleEntryCanBeAddedByOneUser(){
         Request request  = new Request("username","password");
         diaryService.register(request);
@@ -129,6 +152,17 @@ class DiaryServiceImplTest {
         diaryService.addEntry(diary,entryCreation1);
         diaryService.deleteAEntry("username","title");
         assertEquals(1,entryService.findEntryOf("username").size());
+    }
+    @Test
+    public void testThatEntryCanBeDeleted(){
+        Request request  = new Request("username","password");
+        diaryService.register(request);
+        diaryService.login(request.getUsername(), request.getPassword());
+        EntryCreation entryCreation = new EntryCreation("title","body");
+        Diary diary = diaryService.findDiaryById(request.getUsername());
+        diaryService.addEntry(diary,entryCreation);
+        diaryService.findEntryBy("title","username");
+        assertEquals(1,entryService.getNumberOfEntry());
     }
 
 
