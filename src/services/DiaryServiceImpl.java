@@ -4,14 +4,14 @@ import data.model.Diary;
 import data.model.Entry;
 import data.repositories.DiaryRepositories;
 import data.repositories.DiaryRepositoriesImplement;
-import data.repositories.EntryRepositories;
-import data.repositories.EntryRepositoriesImplement;
 import dtos.entryCreation.EntryCreation;
 import dtos.request.Request;
-import exception.DiaryNotFound;
+import exception.EntryNotFoundException;
 import exception.InvalidPasswordException;
 import exception.InvalidUserNameException;
 import exception.UserNameExistException;
+
+import java.util.List;
 
 public class DiaryServiceImpl implements DiaryService {
     private DiaryRepositories diaryRepositories = new DiaryRepositoriesImplement();
@@ -68,6 +68,15 @@ public class DiaryServiceImpl implements DiaryService {
     @Override
     public void deleteAEntry(String username,String title) {
         entryService.deleteEntry(username,title);
+    }
+
+    @Override
+    public void findEntryBy(String title, String username) {
+        List<Entry> entries = entryService.findEntryOf(username);
+        Entry expected = null;
+        for(Entry entry: entries) if(entry.getTitle().equals(title)) expected = entry;
+        if(expected == null) throw new EntryNotFoundException("Entry Not Found");
+
     }
 
 
