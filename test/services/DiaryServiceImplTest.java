@@ -39,6 +39,10 @@ class DiaryServiceImplTest {
         diaryService.register(request1);
         assertEquals(2,diaryService.count());
     }
+    @AfterEach
+    public void clearDiary(){
+        diaryService.findAll().clear();
+    }
     @Test
     public void testThatUserNameThatExistCantBeRegisteredAgain(){
         Request request  = new Request("username","password");
@@ -75,7 +79,7 @@ class DiaryServiceImplTest {
         diaryService.login(request.getUsername(), request.getPassword());
         EntryCreation entryCreation = new EntryCreation("title","body");
         Diary diary = diaryService.findDiaryById(request.getUsername());
-        diaryService.addEntry(diary,entryCreation);
+        diaryService.addEntry(request.getUsername(),entryCreation);
         assertEquals(1,entryService.getNumberOfEntry());
 
     }
@@ -87,11 +91,11 @@ class DiaryServiceImplTest {
         diaryService.login(request.getUsername(), request.getPassword());
         EntryCreation entryCreation = new EntryCreation("title","body");
         Diary diary = diaryService.findDiaryById(request.getUsername());
-        diaryService.addEntry(diary,entryCreation);
+        diaryService.addEntry(request.getUsername(),entryCreation);
         assertEquals(1,entryService.getNumberOfEntry());
 
-        EntryCreation entryCreation1 = new EntryCreation("title","body");
-        diaryService.addEntry(diary,entryCreation1);
+        EntryCreation entryCreation1 = new EntryCreation("title1","body");
+        diaryService.addEntry(request.getUsername(),entryCreation1);
         assertEquals(2,entryService.getNumberOfEntry());    }
 
     @Test
@@ -104,10 +108,8 @@ class DiaryServiceImplTest {
         diaryService.login(request1.getUsername(), request1.getPassword());
 
         EntryCreation entryCreation = new EntryCreation("title","body");
-        Diary diary = diaryService.findDiaryById(request.getUsername());
-        Diary diary1 = diaryService.findDiaryById(request1.getUsername());
-        diaryService.addEntry(diary,entryCreation);
-        diaryService.addEntry(diary1,entryCreation);
+        diaryService.addEntry(request.getUsername(),entryCreation);
+        diaryService.addEntry(request1.getUsername(),entryCreation);
         diaryService.deleteAEntry("username","title");
         assertEquals(1,entryService.getNumberOfEntry());
 
@@ -122,10 +124,8 @@ class DiaryServiceImplTest {
         diaryService.login(request1.getUsername(), request1.getPassword());
 
         EntryCreation entryCreation = new EntryCreation("title","body");
-        Diary diary = diaryService.findDiaryById(request.getUsername());
-        Diary diary1 = diaryService.findDiaryById(request1.getUsername());
-        diaryService.addEntry(diary,entryCreation);
-        diaryService.addEntry(diary1,entryCreation);
+        diaryService.addEntry(request.getUsername(),entryCreation);
+        diaryService.addEntry(request1.getUsername(),entryCreation);
         diaryService.deleteAEntry("username","title");
         assertEquals(1,entryService.getNumberOfEntry());
     }
@@ -135,9 +135,10 @@ class DiaryServiceImplTest {
         diaryService.register(request);
         diaryService.login(request.getUsername(), request.getPassword());
         EntryCreation entryCreation = new EntryCreation("title","body");
+        EntryCreation entryCreation1 = new EntryCreation("title1","body");
         Diary diary = diaryService.findDiaryById(request.getUsername());
-        diaryService.addEntry(diary,entryCreation);
-        diaryService.addEntry(diary,entryCreation);
+        diaryService.addEntry(request.getUsername(),entryCreation);
+        diaryService.addEntry(request.getUsername(),entryCreation1);
         assertEquals(2,entryService.findEntryOf("username").size());
     }
     @Test
@@ -148,8 +149,8 @@ class DiaryServiceImplTest {
         EntryCreation entryCreation = new EntryCreation("title1","body");
         EntryCreation entryCreation1 = new EntryCreation("title","body");
         Diary diary = diaryService.findDiaryById(request.getUsername());
-        diaryService.addEntry(diary,entryCreation);
-        diaryService.addEntry(diary,entryCreation1);
+        diaryService.addEntry(request.getUsername(),entryCreation);
+        diaryService.addEntry(request.getUsername(),entryCreation1);
         diaryService.deleteAEntry("username","title");
         assertEquals(1,entryService.findEntryOf("username").size());
     }
@@ -160,7 +161,7 @@ class DiaryServiceImplTest {
         diaryService.login(request.getUsername(), request.getPassword());
         EntryCreation entryCreation = new EntryCreation("title","body");
         Diary diary = diaryService.findDiaryById(request.getUsername());
-        diaryService.addEntry(diary,entryCreation);
+        diaryService.addEntry(request.getUsername(),entryCreation);
         assertEquals(diaryService.findEntryBy("title","username"),entryService.findEntryOf("username").get(0));
     }
     @Test
@@ -170,7 +171,7 @@ class DiaryServiceImplTest {
         diaryService.login(request.getUsername(), request.getPassword());
         EntryCreation entryCreation = new EntryCreation("title","body");
         Diary diary = diaryService.findDiaryById(request.getUsername());
-        diaryService.addEntry(diary,entryCreation);
+        diaryService.addEntry(request.getUsername(),entryCreation);
         assertThrows(EntryNotFoundException.class,()->diaryService.findEntryBy("title1","username"));
     }
     @Test
@@ -180,7 +181,7 @@ class DiaryServiceImplTest {
         diaryService.login(request.getUsername(), request.getPassword());
         EntryCreation entryCreation = new EntryCreation("title","body");
         Diary diary = diaryService.findDiaryById(request.getUsername());
-        diaryService.addEntry(diary,entryCreation);
+        diaryService.addEntry(request.getUsername(),entryCreation);
         assertThrows(EntryNotFoundException.class,()->diaryService.findEntryBy("title","wrongUsername"));
     }
     @Test
@@ -190,7 +191,7 @@ class DiaryServiceImplTest {
         diaryService.login(request.getUsername(), request.getPassword());
         EntryCreation entryCreation = new EntryCreation("title","body");
         Diary diary = diaryService.findDiaryById(request.getUsername());
-        diaryService.addEntry(diary,entryCreation);
+        diaryService.addEntry(request.getUsername(),entryCreation);
         UpdateEntry updateEntry = new UpdateEntry("newTitle","newBody");
         diaryService.updateEntry("title",updateEntry,"username");
         Entry entry = diaryService.findEntryBy("newTitle","username");
@@ -203,7 +204,7 @@ class DiaryServiceImplTest {
         diaryService.login(request.getUsername(), request.getPassword());
         EntryCreation entryCreation = new EntryCreation("title","body");
         Diary diary = diaryService.findDiaryById(request.getUsername());
-        diaryService.addEntry(diary,entryCreation);
+        diaryService.addEntry(request.getUsername(),entryCreation);
         UpdateEntry updateEntry = new UpdateEntry("newTitle","newBody");
         assertThrows(EntryNotFoundException.class,()->diaryService.updateEntry("title1",updateEntry,"username"));
     }
@@ -214,7 +215,7 @@ class DiaryServiceImplTest {
         diaryService.login(request.getUsername(), request.getPassword());
         EntryCreation entryCreation = new EntryCreation("title","body");
         Diary diary = diaryService.findDiaryById(request.getUsername());
-        diaryService.addEntry(diary,entryCreation);
+        diaryService.addEntry(request.getUsername(),entryCreation);
         UpdateEntry updateEntry = new UpdateEntry("newTitle","newBody");
         assertThrows(EntryNotFoundException.class,()->diaryService.updateEntry("title",updateEntry,"wrongUsername"));
     }
@@ -225,7 +226,7 @@ class DiaryServiceImplTest {
         diaryService.login(request.getUsername(), request.getPassword());
         EntryCreation entryCreation = new EntryCreation("title","body");
         Diary diary = diaryService.findDiaryById(request.getUsername());
-        diaryService.addEntry(diary,entryCreation);
+        diaryService.addEntry(request.getUsername(),entryCreation);
         diaryService.resetPassword("password","username","newPassword");
         diary = diaryService.findDiaryById("username");
 
@@ -248,8 +249,8 @@ class DiaryServiceImplTest {
         EntryCreation entryCreation = new EntryCreation("title","body");
         EntryCreation entryCreation1 = new EntryCreation("title","body");
         Diary diary = diaryService.findDiaryById(request.getUsername());
-        diaryService.addEntry(diary,entryCreation);
-        assertThrows(EntryTitleExistException.class,()->diaryService.addEntry(diary,entryCreation1));
+        diaryService.addEntry(request.getUsername(),entryCreation);
+        assertThrows(EntryTitleExistException.class,()->diaryService.addEntry(request.getUsername(),entryCreation1));
 
     }
 
