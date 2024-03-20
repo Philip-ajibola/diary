@@ -3,10 +3,7 @@ import data.model.Diary;
 import data.model.Entry;
 import dtos.UpdateEntry;
 import dtos.entryCreation.EntryCreation;
-import exception.EntryNotFoundException;
-import exception.InvalidPasswordException;
-import exception.InvalidUserNameException;
-import exception.UserNameExistException;
+import exception.*;
 
 import dtos.request.Request;
 import org.junit.jupiter.api.AfterEach;
@@ -243,6 +240,17 @@ class DiaryServiceImplTest {
         diaryService.logOut("username");
         assertTrue(diaryService.findDiaryById("username").isLocked());
     }
+    @Test
+    public void testThatWhenDiaryHasAnEntry_AnotherEntryCantBeCreatedWithSameTitle(){
+        Request request  = new Request("username","password");
+        diaryService.register(request);
+        diaryService.login(request.getUsername(), request.getPassword());
+        EntryCreation entryCreation = new EntryCreation("title","body");
+        EntryCreation entryCreation1 = new EntryCreation("title","body");
+        Diary diary = diaryService.findDiaryById(request.getUsername());
+        diaryService.addEntry(diary,entryCreation);
+        assertThrows(EntryTitleExistException.class,()->diaryService.addEntry(diary,entryCreation1));
 
+    }
 
 }
