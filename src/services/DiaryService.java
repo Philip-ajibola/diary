@@ -6,6 +6,9 @@ import dtos.UpdateEntry;
 import dtos.entryCreation.EntryCreation;
 import dtos.request.Request;
 
+import java.util.Collection;
+import java.util.List;
+
 public interface DiaryService {
     void register(Request request);
     void login(String username, String password);
@@ -14,7 +17,7 @@ public interface DiaryService {
 
     Diary findDiaryById(String username);
 
-    void addEntry(Diary diary, EntryCreation entryCreation);
+    void addEntry(String username, EntryCreation entryCreation);
 
     void deleteAEntry(String username,String title);
 
@@ -24,4 +27,10 @@ public interface DiaryService {
 
     void resetPassword(String password, String username, String newPassWord);
     void logOut(String username);
+
+    List<Entry> findEntry(String username);
+
+    List<Entry> findAllEntry();
+
+    List<Diary> findAll();
 }
