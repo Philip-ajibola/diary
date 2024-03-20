@@ -18,13 +18,13 @@ public class Diary {
     public Diary(){
 
     }
-    @Override
-    public boolean equals(Object obj) {
-        if(obj instanceof Diary diary){
-            return diary.username.equals(username) && diary.password.equals(password);
-        }
-        return false;
-    }
+//    @Override
+//    public boolean equals(Object obj) {
+//        if(obj instanceof Diary diary){
+//            return diary.username.equals(username) && diary.password.equals(password);
+//        }
+//        return false;
+//    }
 
     public void setPassword(String password) {
         this.password = password;
@@ -42,15 +42,10 @@ public class Diary {
         return isLocked;
     }
 
-    public void unLock() {
-        isLocked = false;
-    }
-
     public String getPassword() {
         return password;
     }
-
-
-
-
+    public void setLock(boolean isLocked) {
+        this.isLocked = isLocked;
+    }
 }

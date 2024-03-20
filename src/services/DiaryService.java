@@ -23,4 +23,5 @@ public interface DiaryService {
     void updateEntry(String title, UpdateEntry updateEntry, String username);
 
     void resetPassword(String password, String username, String newPassWord);
+    void logOut(String username);
 }

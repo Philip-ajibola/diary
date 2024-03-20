@@ -197,7 +197,6 @@ class DiaryServiceImplTest {
         UpdateEntry updateEntry = new UpdateEntry("newTitle","newBody");
         diaryService.updateEntry("title",updateEntry,"username");
         Entry entry = diaryService.findEntryBy("newTitle","username");
-        System.out.println(entry.getTitle());
         assertThrows(EntryNotFoundException.class,()->diaryService.findEntryBy("title","wrongUsername"));
     }
     @Test
@@ -232,9 +231,17 @@ class DiaryServiceImplTest {
         diaryService.addEntry(diary,entryCreation);
         diaryService.resetPassword("password","username","newPassword");
         diary = diaryService.findDiaryById("username");
-        System.out.println(diaryService.count());
 
         assertEquals(diary.getPassword(),"newPassword");
+    }
+    @Test
+    public void testThatUserCanLogOut(){
+        Request request  = new Request("username","password");
+        diaryService.register(request);
+        diaryService.login(request.getUsername(), request.getPassword());
+        assertFalse(diaryService.findDiaryById("username").isLocked());
+        diaryService.logOut("username");
+        assertTrue(diaryService.findDiaryById("username").isLocked());
     }
 
 

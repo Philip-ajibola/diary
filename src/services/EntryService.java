@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface EntryService {
     void create(Entry entry);
-    void update(Entry entry);
+
     void deleteEntry(String Author,String title);
 
     int getNumberOfEntry();
