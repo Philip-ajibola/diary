@@ -7,15 +7,12 @@ import data.repositories.DiaryRepositoriesImplement;
 import dtos.UpdateEntry;
 import dtos.entryCreation.EntryCreation;
 import dtos.request.Request;
-import exception.EntryNotFoundException;
-import exception.InvalidPasswordException;
-import exception.InvalidUserNameException;
-import exception.UserNameExistException;
+import exception.*;
 
 import java.util.List;
 
 public class DiaryServiceImpl implements DiaryService {
-    private DiaryRepositories diaryRepositories = new DiaryRepositoriesImplement();
+    private static DiaryRepositories diaryRepositories = new DiaryRepositoriesImplement();
     private  EntryService entryService = new EntryServiceImpl();
 
     @Override
@@ -61,10 +58,16 @@ public class DiaryServiceImpl implements DiaryService {
     @Override
     public void addEntry(Diary diary, EntryCreation entryCreation) {
         Entry entry = new Entry();
+        extracted(diary, entryCreation);
         entry.setTitle(entryCreation.getTitle());
         entry.setBody(entryCreation.getBody());
         entry.setAuthor(diary.getUsername());
         entryService.create(entry);
+    }
+
+    private void extracted(Diary diary, EntryCreation entryCreation) {
+        List<Entry> entries = entryService.findEntryOf(diary.getUsername());
+        for(Entry entry1: entries) if(entry1.getTitle().trim().equals(entryCreation.getTitle().trim())) throw new EntryTitleExistException("Entry Title Existed Already ");
     }
 
     @Override
