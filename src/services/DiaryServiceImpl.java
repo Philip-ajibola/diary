@@ -132,4 +132,9 @@ public class DiaryServiceImpl implements DiaryService {
         return diaryRepositories.findAll();
     }
 
+    @Override
+    public void deleteDiary(String username) {
+        diaryRepositories.delete(username);
+    }
+
 }
