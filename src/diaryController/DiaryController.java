@@ -1,6 +1,7 @@
 package diaryController;
 
 import data.model.Diary;
+import data.model.Entry;
 import dtos.UpdateEntry;
 import dtos.entryCreation.EntryCreation;
 import dtos.request.Request;
@@ -53,7 +54,34 @@ public class DiaryController {
         return diaryService.findAll();
     }
 
-    public void logOut(String username) {
-        diaryService.logOut(username);
+    public String logOut(String username) {
+        try {
+            diaryService.logOut(username);
+            return username + " Logged Out";
+        }catch(DiaryException e){
+            return String.format("%s",e.getMessage());
+        }
+    }
+    public String deleteDiary(String username) {
+        try {
+            diaryService.deleteDiary(username);
+            return "Diary Has Been Deleted";
+        }catch(DiaryException e){
+            return String.format("%s", e.getMessage());
+        }
+    }
+
+
+    public String resetPassword(String password, String username, String newPassword) {
+        try {
+            diaryService.resetPassword(password, username, newPassword);
+            return "Password Reset";
+        }catch(DiaryException e){
+            return String.format("%s",e.getMessage());
+        }
+    }
+
+    public List<Entry> findDiaryEntryBy(String username) {
+        return diaryService.findEntry(username);
     }
 }
