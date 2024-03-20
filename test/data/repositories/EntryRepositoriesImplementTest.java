@@ -42,7 +42,7 @@ class EntryRepositoriesImplementTest {
     }
     @Test
     public void testThatEntryCanBeUpdated(){
-        Entry entry = new Entry(1,"title","body");
+        Entry entry = new Entry(0,"title","body");
         entry.setAuthor("authorName");
         entryRepositoriesImplement.save(entry);
 
@@ -95,10 +95,10 @@ class EntryRepositoriesImplementTest {
 
     @Test
     public void testThatAllEntryCanBeFound(){
-        Entry entry = new Entry(1,"title","body");
+        Entry entry = new Entry(0,"title","body");
         entryRepositoriesImplement.save(entry);
 
-        Entry entry1 = new Entry(2,"title","body");
+        Entry entry1 = new Entry(0,"title","body");
         entryRepositoriesImplement.save(entry1);
         List<Entry> entries = new ArrayList<>();
         entries.add(entry);
