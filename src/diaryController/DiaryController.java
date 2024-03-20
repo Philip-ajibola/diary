@@ -52,4 +52,8 @@ public class DiaryController {
     public List<Diary> findAll(){
         return diaryService.findAll();
     }
+
+    public void logOut(String username) {
+        diaryService.logOut(username);
+    }
 }

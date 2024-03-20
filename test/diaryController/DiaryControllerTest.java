@@ -155,5 +155,20 @@ class DiaryControllerTest {
         assertEquals("User Not Found",diaryController.updateEntry("title",updateEntry,"WrongUsername"));
 
     }
+    @Test
+    public void testThatUserCanLogOutDiary(){
+        DiaryController diaryController = new DiaryController();
+        Request request = new Request("username","password");
+        String expected = diaryController.createDiary(request);
+        assertEquals("Diary Successfully Created ",expected);
+
+        EntryCreation entryCreation = new EntryCreation("title","body");
+        diaryController.createEntry(entryCreation,"username");
+        UpdateEntry updateEntry= new UpdateEntry("newTitle","newBody");
+        assertEquals("User Not Found",diaryController.updateEntry("title",updateEntry,"WrongUsername"));
+        diaryController.logOut("username");
+        Diary diary = diaryService.findDiaryById("username");
+        assertTrue(diary.isLocked());
+    }
 
 }
