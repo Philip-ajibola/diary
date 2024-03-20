@@ -62,7 +62,6 @@ class DiaryControllerTest {
         assertEquals("Entry Successfully Added To list Of Entry",expected1);
         assertEquals("Entry Title Existed Already ",diaryController.createEntry(entryCreation1,diary));
 
-
     }
 
 }
