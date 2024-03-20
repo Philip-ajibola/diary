@@ -1,7 +1,6 @@
 package diaryController;
 
 import data.model.Diary;
-import data.model.Entry;
 import dtos.UpdateEntry;
 import dtos.entryCreation.EntryCreation;
 import dtos.request.Request;
@@ -31,14 +30,12 @@ class DiaryControllerTest {
 
     @Test
     public void testThatUserCanCreateDiary(){
-        DiaryController diaryController = new DiaryController();
         Request request = new Request("username","password");
         String expected = diaryController.createDiary(request);
         assertEquals("Diary Successfully Created ",expected);
     }
     @Test
     public void testThatWhenUserTryToRegisterWithExistingUsername_ErrorMessageIsShown(){
-        DiaryController diaryController = new DiaryController();
         Request request = new Request("username","password");
         String expected = diaryController.createDiary(request);
         assertEquals("Diary Successfully Created ",expected);
@@ -49,7 +46,6 @@ class DiaryControllerTest {
     }
     @Test
     public void testUserCanCreateEntryToDiary(){
-        DiaryController diaryController = new DiaryController();
         Request request = new Request("username","password");
         String expected = diaryController.createDiary(request);
         assertEquals("Diary Successfully Created ",expected);
@@ -61,7 +57,6 @@ class DiaryControllerTest {
     }
     @Test
     public void testUserThatDoesNotExistCantCreateEntry(){
-        DiaryController diaryController = new DiaryController();
         Request request = new Request("username","password");
         String expected = diaryController.createDiary(request);
         assertEquals("Diary Successfully Created ",expected);
@@ -72,7 +67,6 @@ class DiaryControllerTest {
     }
     @Test
     public void testEntryWithSameEntryTitleCantBeCreated_ErrorMessageIsThrown(){
-        DiaryController diaryController = new DiaryController();
         Request request = new Request("username","password");
         String expected = diaryController.createDiary(request);
         assertEquals("Diary Successfully Created ",expected);
@@ -86,7 +80,6 @@ class DiaryControllerTest {
     }
     @Test
     public void testThatUserCanDeleteEntry(){
-        DiaryController diaryController = new DiaryController();
         Request request = new Request("username","password");
         String expected = diaryController.createDiary(request);
         assertEquals("Diary Successfully Created ",expected);
@@ -98,7 +91,6 @@ class DiaryControllerTest {
     }
     @Test
     public void testThatWhenUserTryToDeleteEntryThatDoesExist_errorMessageIsThrown(){
-        DiaryController diaryController = new DiaryController();
         Request request = new Request("username","password");
         String expected = diaryController.createDiary(request);
         assertEquals("Diary Successfully Created ",expected);
@@ -107,7 +99,6 @@ class DiaryControllerTest {
     }
     @Test
     public void testThatEntryCantBeDeletedWithWrongUserName(){
-        DiaryController diaryController = new DiaryController();
         Request request = new Request("username","password");
         String expected = diaryController.createDiary(request);
         assertEquals("Diary Successfully Created ",expected);
@@ -119,7 +110,6 @@ class DiaryControllerTest {
     }
     @Test
     public void testThatEntryCanBeUpdated(){
-        DiaryController diaryController = new DiaryController();
         Request request = new Request("username","password");
         String expected = diaryController.createDiary(request);
         assertEquals("Diary Successfully Created ",expected);
@@ -131,7 +121,6 @@ class DiaryControllerTest {
     }
     @Test
     public void testThatEntryThatDoesNotExistCantBeUpdated(){
-        DiaryController diaryController = new DiaryController();
         Request request = new Request("username","password");
         String expected = diaryController.createDiary(request);
         assertEquals("Diary Successfully Created ",expected);
@@ -144,7 +133,6 @@ class DiaryControllerTest {
     }
     @Test
     public void testThatEntryCantBeUpdatedWithWrongUserName(){
-        DiaryController diaryController = new DiaryController();
         Request request = new Request("username","password");
         String expected = diaryController.createDiary(request);
         assertEquals("Diary Successfully Created ",expected);
@@ -157,7 +145,6 @@ class DiaryControllerTest {
     }
     @Test
     public void testThatUserCanLogOutDiary(){
-        DiaryController diaryController = new DiaryController();
         Request request = new Request("username","password");
         String expected = diaryController.createDiary(request);
         assertEquals("Diary Successfully Created ",expected);
@@ -170,5 +157,35 @@ class DiaryControllerTest {
         Diary diary = diaryService.findDiaryById("username");
         assertTrue(diary.isLocked());
     }
+    @Test
+    public void testThatUserDiaryCanBeDeleted(){
+        Request request = new Request("username","password");
+        String expected = diaryController.createDiary(request);
+        assertEquals("Diary Successfully Created ",expected);
+        diaryController.deleteDiary("username");
+        assertEquals(0,diaryController.findAll().size());
+    }
 
+    @Test
+    public void thatUserCanResetPassword(){
+        Request request = new Request("username","password");
+        String expected = diaryController.createDiary(request);
+        assertEquals("Diary Successfully Created ",expected);
+        diaryController.resetPassword("password","username","newPassword");
+        Diary diary = diaryService.findDiaryById("username");
+        assertEquals("newPassword",diary.getPassword());
+    }
+    @Test
+    public void testThatDiaryCanFindAllTheDiaryEntry(){
+        Request request = new Request("username","password");
+        String expected = diaryController.createDiary(request);
+        assertEquals("Diary Successfully Created ",expected);
+        EntryCreation entryCreation = new EntryCreation("title","body");
+        EntryCreation entryCreation1 = new EntryCreation("title1","body");
+        diaryController.createEntry(entryCreation,"username");
+        diaryController.createEntry(entryCreation1,"username");
+
+        assertEquals(2,diaryController.findDiaryEntryBy("username").size());
+
+    }
 }
