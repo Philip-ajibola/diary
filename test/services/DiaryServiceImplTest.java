@@ -253,5 +253,13 @@ class DiaryServiceImplTest {
         assertThrows(EntryTitleExistException.class,()->diaryService.addEntry(request.getUsername(),entryCreation1));
 
     }
+    @Test
+    public void testThatDiaryCanBeDeleted(){
+        Request request  = new Request("username","password");
+        diaryService.register(request);
+        diaryService.login(request.getUsername(), request.getPassword());
+        diaryService.deleteDiary("username");
+        assertEquals(0,diaryService.count());
+    }
 
 }
