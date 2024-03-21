@@ -1,15 +1,19 @@
 package data.model;
 
+import java.time.LocalDate;
+
 public class Entry {
 
     private  String author;
     private  String title;
     private  String body;
     private int id;
+    private LocalDate localDate;
     public Entry(int id,String title, String body){
         this.id = id;
         this.title = title;
         this.body = body;
+        this.localDate = LocalDate.now();
     }
 
     public Entry(){}
@@ -41,5 +45,17 @@ public class Entry {
 
     public String getAuthor() {
         return author;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("""
+                Entry Author: %s                   Date Of Creation: %s
+                
+                            Entry Title: %s
+                            
+                   Entry Body:
+                         %s         
+                """,author,localDate,title,body);
     }
 }
