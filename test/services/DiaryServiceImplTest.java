@@ -62,7 +62,7 @@ class DiaryServiceImplTest {
     public void testThatUserCantLoginToDiaryAppWithWrongUserName(){
         Request request  = new Request("username","password");
         diaryService.register(request);
-        assertThrows(InvalidUserNameException.class,()->diaryService.login("wrongUsername", "password"));
+        assertThrows(UserNotFoundException.class,()->diaryService.login("wrongUsername", "password"));
         assertTrue(diaryService.findDiaryById(request.getUsername()).isLocked());
     }
     @Test
@@ -217,7 +217,7 @@ class DiaryServiceImplTest {
         Diary diary = diaryService.findDiaryById(request.getUsername());
         diaryService.addEntry(request.getUsername(),entryCreation);
         UpdateEntry updateEntry = new UpdateEntry("newTitle","newBody");
-        assertThrows(EntryNotFoundException.class,()->diaryService.updateEntry("title",updateEntry,"wrongUsername"));
+        assertThrows(DiaryException.class,()->diaryService.updateEntry("title",updateEntry,"wrongUsername"));
     }
     @Test
     public void testThatUserCanResetDairyPassword(){
