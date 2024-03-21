@@ -52,7 +52,9 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     public Diary findDiaryById(String username) {
-        return diaryRepositories.findById(username);
+         Diary diary = diaryRepositories.findById(username);
+         if(diary == null) throw new UserNotFoundException("User Not Found");
+         return diary;
     }
 
     @Override
