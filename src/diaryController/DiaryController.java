@@ -29,7 +29,7 @@ public class DiaryController {
         diaryService.addEntry(username,entryCreation);
         return "\nEntry Successfully Added To list Of Entry";
         }catch(DiaryException e){
-            throw new DiaryException(e.getMessage());
+            return String.format("\n%s",e.getMessage());
         }
     }
     public String login(LoginRequest loginRequest){
@@ -47,7 +47,7 @@ public class DiaryController {
             diaryService.deleteAEntry(username,title);
             return "\nEntry Deleted Successfully";
         }catch(DiaryException e){
-            return String.format("\n%s",e.getMessage());
+            return  String.format("\n%s",e.getMessage());
         }
     }
 
@@ -93,9 +93,7 @@ public class DiaryController {
     public List<Entry> findDiaryEntryBy(String username) {
         return diaryService.findEntry(username);
     }
-    public Diary findDiary(String userName){
-        return diaryService.findDiaryById(userName);
-    }
+
     public String findEntry(String username,String title){
         try {
             return String.format("%s", diaryService.findEntryBy(title, username));
