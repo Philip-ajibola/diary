@@ -120,7 +120,7 @@ public class DiaryServiceImpl implements DiaryService {
     @Override
     public List<Entry> findEntry(String username){
         Diary diary = findDiaryById(username);
-        if(diary == null) throw new UserNotFoundException("User Not Found");
+        //if(diary == null) throw new UserNotFoundException("User Not Found");
         return entryService.findEntryOf(username);
     }
 

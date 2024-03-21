@@ -18,26 +18,26 @@ public class DiaryController {
     public String createDiary(Request request) {
         try {
             diaryService.register(request);
-            return "Diary Successfully Created ";
-        }catch (Exception e){
-            return String.format("%s",e.getMessage());
+            return "\n Diary Registered Successfully ";
+        }catch (DiaryException e){
+            throw new DiaryException(e.getMessage());
         }
     }
 
     public String createEntry(EntryCreation entryCreation, String username) {
         try{
         diaryService.addEntry(username,entryCreation);
-        return "Entry Successfully Added To list Of Entry";
+        return "\nEntry Successfully Added To list Of Entry";
         }catch(DiaryException e){
-            return String.format("%s",e.getMessage());
+            throw new DiaryException(e.getMessage());
         }
     }
     public String login(LoginRequest loginRequest){
         try {
             diaryService.login(loginRequest.getUsername(), loginRequest.getPassword());
-            return "Login SuccessFul";
+            return "\nLogin SuccessFul";
         }catch (DiaryException e){
-            return String.format("%s",e.getMessage());
+            throw new DiaryException( e.getMessage());
         }
     }
 
@@ -45,18 +45,18 @@ public class DiaryController {
     public String deleteEntry(String username, String title) {
         try {
             diaryService.deleteAEntry(username,title);
-            return "Entry Deleted Successfully";
+            return "\nEntry Deleted Successfully";
         }catch(DiaryException e){
-            return String.format("%s",e.getMessage());
+            return String.format("\n%s",e.getMessage());
         }
     }
 
     public String updateEntry(String title, UpdateEntry updateEntry, String body) {
         try {
             diaryService.updateEntry(title, updateEntry, body);
-            return "Entry Updated";
+            return "\nEntry Updated";
         }catch (DiaryException e){
-            return String.format("%s",e.getMessage());
+            return String.format("\n%s",e.getMessage());
         }
     }
     public List<Diary> findAll(){
@@ -66,17 +66,17 @@ public class DiaryController {
     public String logOut(String username) {
         try {
             diaryService.logOut(username);
-            return username + " Logged Out";
+            return "\n" +username + " Logged Out";
         }catch(DiaryException e){
-            return String.format("%s",e.getMessage());
+            return String.format("\n%s",e.getMessage());
         }
     }
     public String deleteDiary(String username) {
         try {
             diaryService.deleteDiary(username);
-            return "Diary Has Been Deleted";
+            return "\nDiary Has Been Deleted";
         }catch(DiaryException e){
-            return String.format("%s", e.getMessage());
+            return String.format("\n%s", e.getMessage());
         }
     }
 
@@ -97,6 +97,11 @@ public class DiaryController {
         return diaryService.findDiaryById(userName);
     }
     public String findEntry(String username,String title){
-       return String.format("%s", diaryService.findEntryBy(username,title));
+        try {
+            return String.format("%s", diaryService.findEntryBy(title, username));
+        }catch (DiaryException e){
+            return String.format(e.getMessage());
+        }
     }
+
 }

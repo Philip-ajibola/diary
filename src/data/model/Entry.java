@@ -8,12 +8,11 @@ public class Entry {
     private  String title;
     private  String body;
     private int id;
-    private LocalDate localDate;
+    private LocalDate localDate = LocalDate.now();
     public Entry(int id,String title, String body){
         this.id = id;
         this.title = title;
         this.body = body;
-        this.localDate = LocalDate.now();
     }
 
     public Entry(){}

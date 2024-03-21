@@ -13,79 +13,123 @@ public class DiaryMain {
     private  static DiaryController diaryController = new DiaryController();
     private static Scanner scanner = new Scanner(System.in);
 
-
+    public static void main(String[] args) {
+        mainMenu();
+    }
     private static void mainMenu(){
         try{
-        int userInput = Integer.parseInt(input("""
+        String userInput = input("""
                <<<<<<<<< Welcome To GossipVille Diary >>>>>>>>>>
                     
                         [<1>] Sign up             [<2>] sign in
-                """));
+                """);
 
         switch(userInput){
-            case 1-> registerUser();
-            case 2-> login();
+            case "1"-> registerUser();
+            case "2"-> login();
+            default -> displayInvalidInput();
         }
         } catch(InputMismatchException e){
             print(e.getMessage());
         }
     }
 
-    private static void registerUser() {
-        String userName = input("Enter Your firstName ");
-        if(userName.matches("[a-zA-Z]+"))throw new IllegalArgumentException("Invalid Input Supplied");
-        String password = input("Enter Password ");
-        print(diaryController.createDiary(new Request(userName,password)));
-    }
-    private static void login(){
-        String username = input("Enter Your Username");
-        String password = input("Enter Your password");
-        print(diaryController.login(new LoginRequest(username,password)));
-        displayMenu(username);
+    private static void displayInvalidInput() {
+        print("Input Mismatch ");
+        mainMenu();
     }
 
-    private static void displayMenu(String username) {
-        try {
-            int userResponse = Integer.parseInt(input("""
-                    <><><><><><><><><><><><> WELCOME TO HOME GOSSIPVILLE <><><><><><><><><><><><><>
-                                    
-                               [<1>] ADD ENTRY                         [<2>] UPDATE ENTRY
-                               
-                               [<3>] DELETE ENTRY                      [<3>] RESET PASSWORD
-                               
-                               [<5>] FIND ENTRY                         [<6>] LOGOUT 
-                                    
-                                                  [<7>] DELETE ACCOUNT
-                    """));
-            collectUserResponse(username, userResponse);
+    private static void registerUser() {
+        String userName = "";
+        try{
+         userName = input("Enter Your username ").trim();
+        if(!userName.matches("[a-zA-Z]+"))throw new IllegalArgumentException("Invalid Input Supplied");
+        String password = input("Enter Password ");
+        print(diaryController.createDiary(new Request(userName.toLowerCase(),password)));
         }catch(Exception e){
             print(e.getMessage());
             mainMenu();
         }
+        finally {
+            displayMenu(userName);
+        }
+    }
+    private static void login(){
+        String username = "";
+        try{
+             username = input("Enter Your Username").trim();
+            if(!username.matches("[a-zA-Z]+"))throw new IllegalArgumentException("Invalid Input Supplied");
+            String password = input("Enter Your password");
+        String response = diaryController.login(new LoginRequest(username.toLowerCase(),password));
+        print(response);
+        }catch(Exception e){
+            print(e.getMessage());
+            mainMenu();
+        }finally {
+            displayMenu(username);
+        }
     }
 
-    private static void collectUserResponse(String username, int userResponse) {
-        switch (userResponse){
-            case 1-> addEntry(username);
-            case 2-> updateEntry(username);
-            case 3-> deleteEntry(username);
-            case 4-> resetPassword(username);
-            case 5-> findEntry(username);
-            case 6-> logout(username);
-            case 7-> deleteAccount(username);
+    private static void displayMenu(String username) {
+        try {
+            String userResponse = input("""
+                    
+                    <><><><><><><><><><><><> WELCOME TO HOME GOSSIPVILLE <><><><><><><><><><><><><>
+                                    
+                               [<1>] ADD ENTRY                         [<2>] UPDATE ENTRY
+                               
+                               [<3>] DELETE ENTRY                      [<4>] RESET PASSWORD
+                               
+                               [<5>] FIND ENTRY                         [<6>] LOGOUT 
+                                    
+                                                  [<7>] DELETE ACCOUNT
+                    """);
+            collectUserResponse(username, userResponse);
+        }catch(Exception e){
+            print("Input MisMatch");
+            displayMenu(username);
         }
+    }
+
+    private static void collectUserResponse(String username, String userResponse) {
+        switch (userResponse){
+            case "1"-> addEntry(username);
+            case "2"-> updateEntry(username);
+            case "3"-> deleteEntry(username);
+            case "4"-> resetPassword(username);
+            case "5"-> findEntry(username);
+            case "6"-> logout(username);
+            case "7"-> deleteAccount(username);
+            default -> goBackToDisplayMenu(username);
+        }
+    }
+
+    private static void goBackToDisplayMenu(String username) {
+        print("Invalid Input ");
+        displayMenu(username);
+    }
+
+    private static void deleteAccount(String username) {
+        print(diaryController.deleteDiary(username));
+        mainMenu();
+    }
+
+    private static void logout(String username) {
+        diaryController.logOut(username);
+        mainMenu();
     }
 
     private static void findEntry(String username) {
         String entryTitle = input("Enter Entry Title");
-        diaryController.findEntry(username,entryTitle);
-
+        print(diaryController.findEntry(username,entryTitle));
+        displayMenu(username);
     }
 
     private static void resetPassword(String username) {
         String oldPassword = input("Enter Your Old Password");
         String newPassword = input("Enter your new password");
         print(diaryController.resetPassword(oldPassword,username,newPassword));
+        displayMenu(username);
     }
 
     private static void deleteEntry(String username) {
@@ -114,7 +158,6 @@ public class DiaryMain {
             displayMenu(username);
         }
     }
-
     private static void print(String diary) {
         System.out.println(diary);
     }
@@ -122,6 +165,6 @@ public class DiaryMain {
 
     private static String input(String s) {
         System.out.println(s);
-        return scanner.next();
+        return scanner.nextLine();
     }
 }
