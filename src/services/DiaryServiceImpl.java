@@ -60,30 +60,38 @@ public class DiaryServiceImpl implements DiaryService {
     @Override
     public void addEntry(String username, EntryCreation entryCreation) {
         Entry entry = new Entry();
-        extracted(username, entryCreation);
-        entry.setTitle(entryCreation.getTitle());
-        entry.setBody(entryCreation.getBody());
-        entry.setAuthor(username);
+        createEntry(username, entryCreation, entry);
         entryService.create(entry);
     }
 
-    private void extracted(String username, EntryCreation entryCreation) {
+    private void createEntry(String username, EntryCreation entryCreation, Entry entry) {
+        validateEntryTitle(username, entryCreation);
+        entry.setTitle(entryCreation.getTitle());
+        entry.setBody(entryCreation.getBody());
+        entry.setAuthor(username);
+    }
+
+    private void validateEntryTitle(String username, EntryCreation entryCreation) {
+        validateUser(username);
         List<Entry> entries = findEntry(username);
         for(Entry entry1: entries) if(entry1.getTitle().trim().equals(entryCreation.getTitle().trim())) throw new EntryTitleExistException("Entry Title Existed Already ");
     }
 
+    private void validateUser(String username) {
+         findDiaryById(username);
+    }
+
     @Override
     public void deleteAEntry(String username,String title) {
+        validateUser(username);
        Entry entry =  findEntryBy(title,username);
-       if(entry == null) throw new EntryNotFoundException("Entry not Found Exception");
+       validateEntry(entry);
        entryService.deleteEntry(username,title);
     }
 
     @Override
     public Entry findEntryBy(String title, String username) {
-        List<Entry> entries = findEntry(username);
-        Entry expected = null;
-        for(Entry entry: entries) if(entry.getTitle().equals(title)) expected = entry;
+        Entry expected = getEntry(title, username);
         validateEntry(expected);
         return expected;
     }
@@ -94,14 +102,20 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     public void updateEntry(String title, UpdateEntry updateEntry, String username) {
-        List<Entry> entries = findEntry(username);
-        Entry expected = null;
-        for(Entry entry: entries) if(entry.getTitle().equals(title)) expected = entry;
+        validateUser(username);
+        Entry expected = getEntry(title, username);
         validateEntry(expected);
         expected.setTitle(updateEntry.getNewTitle());
         expected.setBody(updateEntry.getNewBody());
         entryService.create(expected);
 
+    }
+
+    private Entry getEntry(String title, String username) {
+        List<Entry> entries = findEntry(username);
+        Entry expected = null;
+        for(Entry entry: entries) if(entry.getTitle().equals(title)) expected = entry;
+        return expected;
     }
 
     @Override
@@ -119,8 +133,6 @@ public class DiaryServiceImpl implements DiaryService {
     }
     @Override
     public List<Entry> findEntry(String username){
-        Diary diary = findDiaryById(username);
-        //if(diary == null) throw new UserNotFoundException("User Not Found");
         return entryService.findEntryOf(username);
     }
 
