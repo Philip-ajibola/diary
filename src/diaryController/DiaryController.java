@@ -2,6 +2,7 @@ package diaryController;
 
 import data.model.Diary;
 import data.model.Entry;
+import dtos.LoginRequest;
 import dtos.UpdateEntry;
 import dtos.entryCreation.EntryCreation;
 import dtos.request.Request;
@@ -28,6 +29,14 @@ public class DiaryController {
         diaryService.addEntry(username,entryCreation);
         return "Entry Successfully Added To list Of Entry";
         }catch(DiaryException e){
+            return String.format("%s",e.getMessage());
+        }
+    }
+    public String login(LoginRequest loginRequest){
+        try {
+            diaryService.login(loginRequest.getUsername(), loginRequest.getPassword());
+            return "Login SuccessFul";
+        }catch (DiaryException e){
             return String.format("%s",e.getMessage());
         }
     }
@@ -83,5 +92,11 @@ public class DiaryController {
 
     public List<Entry> findDiaryEntryBy(String username) {
         return diaryService.findEntry(username);
+    }
+    public Diary findDiary(String userName){
+        return diaryService.findDiaryById(userName);
+    }
+    public String findEntry(String username,String title){
+       return String.format("%s", diaryService.findEntryBy(username,title));
     }
 }
