@@ -147,16 +147,16 @@ public class DiaryMain {
     }
 
     private static void addEntry(String username) {
-        try {
+      //  try {
             String title = input("Enter Entry title");
             String body = input("Enter Entry Body ");
             print(diaryController.createEntry(new EntryCreation(title,body),username));
 
-        }catch(DiaryException | InputMismatchException e){
-            print(e.getMessage());
-        }finally {
+       // }catch(DiaryException | InputMismatchException e){
+          //  print(e.getMessage());
+       // }finally {
             displayMenu(username);
-        }
+       // }
     }
     private static void print(String diary) {
         System.out.println(diary);
