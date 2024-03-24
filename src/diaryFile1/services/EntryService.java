@@ -1,6 +1,7 @@
-package services;
+package diaryFile1.services;
 
-import data.model.Entry;
+import diaryFile1.data.model.Entry;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
 
