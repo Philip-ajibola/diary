@@ -1,12 +1,12 @@
-package services;
+package diaryFile1.services;
 
-import data.model.Diary;
-import data.model.Entry;
-import dtos.UpdateEntry;
-import dtos.entryCreation.EntryCreation;
-import dtos.request.Request;
+import diaryFile1.data.model.Diary;
+import diaryFile1.data.model.Entry;
+import diaryFile1.dtos.UpdateEntry;
+import diaryFile1.dtos.entryCreation.EntryCreation;
+import diaryFile1.dtos.request.DeleteEntryRequest;
+import diaryFile1.dtos.request.Request;
 
-import java.util.Collection;
 import java.util.List;
 
 public interface DiaryService {
@@ -17,13 +17,13 @@ public interface DiaryService {
 
     Diary findDiaryById(String username);
 
-    void addEntry(String username, EntryCreation entryCreation);
+    void addEntry( EntryCreation entryCreation);
 
-    void deleteAEntry(String username,String title);
+    void deleteEntry(DeleteEntryRequest entryRequest);
 
     Entry findEntryBy(String title, String username);
 
-    void updateEntry(String title, UpdateEntry updateEntry, String username);
+    void updateEntry(UpdateEntry updateEntry);
 
     void resetPassword(String password, String username, String newPassWord);
     void logOut(String username);
