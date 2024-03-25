@@ -24,10 +24,11 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     public void register(Request request) {
-         isDiaryInList(request.getUsername());
+        isDiaryInList(request.getUsername());
         Diary diary = new Diary();
         diary.setUsername(request.getUsername());
         diary.setPassword(request.getPassword());
+        diary.setLocked(false);
         diaryRepositories.save(diary);
     }
 
@@ -49,12 +50,6 @@ public class DiaryServiceImpl implements DiaryService {
         if(diary == null)throw new InvalidUserNameException("InValid UserName Provide A Valid Username");
     }
 
-//    private boolean isDiaryExisting(String username){
-//        if(diaryRepositories.findAll().isEmpty()){
-//            return true;
-//        }
-//       return false;
-//    }
     private void isDiaryInList(String username){
         for(Diary diary: diaryRepositories.findAll()){
             if(diary.getUsername().equals(username))throw new UserNameExistException("User name already exist");}
@@ -67,13 +62,14 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     public Diary findDiaryById(String username) {
-         Optional<Diary> diary = diaryRepositories.findById(username);
-         if(diary.isEmpty()) throw new UserNotFoundException("User Not Found");
-         return diary.get();
+        Optional<Diary> diary = diaryRepositories.findById(username);
+        if(diary.isEmpty()) throw new UserNotFoundException("User Not Found");
+        return diary.get();
     }
 
     @Override
     public void addEntry( EntryCreation entryCreation) {
+        isLoggedIn(entryCreation.getAuthor());
         validateEntryTitle(entryCreation.getAuthor(),entryCreation.getTitle());
         Entry entry = new Entry();
         entry.setTitle(entryCreation.getTitle());
@@ -85,15 +81,18 @@ public class DiaryServiceImpl implements DiaryService {
 
 
     private void validateEntryTitle(String username,String title) {
+        Diary diary = findDiaryById(username);
+        if(diary==null) throw new UserNotFoundException("User Not Found");
         List<Entry> entries = findEntry(username);
         for(Entry entry1: entries) if(entry1.getTitle().trim().equals(title.trim())) throw new EntryTitleExistException("Entry Title Existed Already ");
     }
 
     @Override
     public void deleteEntry(DeleteEntryRequest entryRequest) {
-       Entry entry =  getEntry(entryRequest.getTitle(),entryRequest.getUsername());
-       validateEntry(entry);
-       entryService.deleteEntry(entryRequest.getUsername(),entryRequest.getTitle());
+        isLoggedIn(entryRequest.getUsername());
+        Entry entry =  getEntry(entryRequest.getTitle(),entryRequest.getUsername());
+        validateEntry(entry);
+        entryService.deleteEntry(entryRequest.getUsername(),entryRequest.getTitle());
     }
 
     @Override
@@ -107,6 +106,7 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     public void updateEntry(UpdateEntry updateEntry) {
+        isLoggedIn(updateEntry.getUsername());
         Entry expected = getEntry(updateEntry.getExistingTitle(), updateEntry.getUsername());
         validateEntry(expected);
         expected.setAuthor(updateEntry.getUsername());
@@ -114,6 +114,10 @@ public class DiaryServiceImpl implements DiaryService {
         expected.setBody(updateEntry.getNewBody());
         entryService.create(expected);
 
+    }
+
+    private void isLoggedIn(String username) {
+        if(findDiaryById(username).isLocked())throw new UserNotFoundException("You are not logged in\n please login");
     }
 
     private Entry getEntry(String title, String username) {
@@ -137,6 +141,7 @@ public class DiaryServiceImpl implements DiaryService {
     public void logOut(String username) {
         Diary diary = findDiaryById(username);
         diary.setLocked(true);
+        diaryRepositories.save(diary);
     }
     @Override
     public List<Entry> findEntry(String username){
@@ -157,6 +162,7 @@ public class DiaryServiceImpl implements DiaryService {
     public void deleteDiary(String username) {
         Diary diary = findDiaryById(username);
         if(diary== null)throw new UserNotFoundException("User Not found");
+        entryService.deleteEntryOf(username);
         diaryRepositories.delete(diary);
     }
 
