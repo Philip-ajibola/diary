@@ -9,6 +9,7 @@ import diaryFile1.dtos.request.DeleteEntryRequest;
 import diaryFile1.dtos.request.Request;
 import diaryFile1.exception.DiaryException;
 import diaryFile1.services.DiaryService;
+import diaryFile1.dtos.ResetPasswordRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,8 +67,8 @@ public class DiaryController {
             return String.format("\n%s",e.getMessage());
         }
     }@GetMapping("/find-all")
-    public List<Diary> findAll(){
-        return diaryService.findAll();
+    public String findAll(){
+        return String.format("%S", diaryService.findAll());
     }
 
     @PatchMapping("/log-out/{username}")
@@ -90,9 +91,9 @@ public class DiaryController {
     }
 
     @PatchMapping("/reset-password")
-    public String resetPassword(@RequestBody String password, String username, String newPassword) {
+    public String resetPassword(@RequestBody ResetPasswordRequest request) {
         try {
-            diaryService.resetPassword(password, username, newPassword);
+            diaryService.resetPassword(request.getOldPassword(), request.getUsername(), request.getNewPassword());
             return "Password Reset";
         }catch(DiaryException e){
             return String.format("%s",e.getMessage());
@@ -110,6 +111,10 @@ public class DiaryController {
         }catch (DiaryException e){
             return String.format(e.getMessage());
         }
+    }
+    @GetMapping("/find-all-entry")
+    public String findAllEntry(){
+        return String.format("%s",diaryService.findAllEntry());
     }
 
 }
