@@ -14,4 +14,6 @@ public interface EntryService {
     List<Entry> findEntryOf(String username);
 
     List<Entry> findAll();
+
+    void deleteEntryOf(String username);
 }
