@@ -24,7 +24,7 @@ public class Entry {
                             Entry Title: %s
                             
                    Entry Body:
-                         %s         
+                         %s  \n       
                 """,author,localDate,title,body);
     }
 }
