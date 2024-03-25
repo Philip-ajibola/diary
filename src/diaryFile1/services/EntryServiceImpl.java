@@ -34,12 +34,17 @@ public class EntryServiceImpl implements EntryService{
     @Override
     public List<Entry> findEntryOf(String username) {
         List<Entry> found = new ArrayList<>();
-        entryRepositories.findAll().forEach(entry ->{ if(entry.getAuthor().equals(username))found.add(entry);});
+        findAll().forEach(entry ->{ if(entry.getAuthor() != null && entry.getAuthor().equals(username))found.add(entry);});
         return found;
     }
 
     @Override
     public List<Entry> findAll() {
         return entryRepositories.findAll();
+    }
+
+    @Override
+    public void deleteEntryOf(String username) {
+        findAll().forEach(entry ->{ if(entry.getAuthor() != null && entry.getAuthor().equals(username))findAll().remove(entry);});
     }
 }
